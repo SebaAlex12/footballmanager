@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { addMatch } from "../../actions/matchActions";
+import { getTeams } from "../../actions/teamActions";
 import moment from "moment";
 
 class MatchForm extends Component {
@@ -22,6 +23,13 @@ class MatchForm extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    // console.log("ddd");
+    this.props.getTeams();
+    // console.log(this.state);
+    // // console.log(this.props.getTeams());
   }
 
   componentWillReceiveProps(newProps) {
@@ -56,7 +64,8 @@ class MatchForm extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, teams } = this.state;
+    console.log(this.state);
     const options = [
       { label: "Wybierz drużynę", value: 0 },
       { label: "Polska", value: "Polska_Pl" },
@@ -165,6 +174,7 @@ class MatchForm extends Component {
 
 MatchForm.propTypes = {
   addMatch: PropTypes.func.isRequired,
+  getTeams: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -181,5 +191,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addMatch }
+  { addMatch, getTeams }
 )(MatchForm);

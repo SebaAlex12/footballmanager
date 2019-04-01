@@ -67,17 +67,22 @@ router.post(
         newBetting.userId = req.user.id;
         newBetting.userName = req.user.name;
 
-        if (req.body.firstTeamFirstHalfGoals)
-          newBetting.firstTeamFirstHalfGoals = req.body.firstTeamFirstHalfGoals;
-        if (req.body.firstTeamSecondHalfGoals)
-          newBetting.firstTeamSecondHalfGoals =
-            req.body.firstTeamSecondHalfGoals;
-        if (req.body.secondTeamFirstHalfGoals)
-          newBetting.secondTeamFirstHalfGoals =
-            req.body.secondTeamFirstHalfGoals;
-        if (req.body.secondTeamSecondHalfGoals)
-          newBetting.secondTeamSecondHalfGoals =
-            req.body.secondTeamSecondHalfGoals;
+        newBetting.firstTeamFirstHalfGoals =
+          req.body.firstTeamFirstHalfGoals === ""
+            ? 0
+            : req.body.firstTeamFirstHalfGoals;
+        newBetting.firstTeamSecondHalfGoals =
+          req.body.firstTeamSecondHalfGoals === ""
+            ? 0
+            : req.body.firstTeamSecondHalfGoals;
+        newBetting.secondTeamFirstHalfGoals =
+          req.body.secondTeamFirstHalfGoals === ""
+            ? 0
+            : req.body.secondTeamFirstHalfGoals;
+        newBetting.secondTeamSecondHalfGoals =
+          req.body.secondTeamSecondHalfGoals === ""
+            ? 0
+            : req.body.secondTeamSecondHalfGoals;
 
         let UserBettingExists = false;
 

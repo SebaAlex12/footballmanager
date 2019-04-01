@@ -5,6 +5,7 @@ import MatchForm from "./MatchForm";
 import MatchFeed from "./MatchFeed";
 import Spinner from "../common/spinner";
 import { getMatches } from "../../actions/matchActions";
+import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
 class Matches extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class Matches extends Component {
             <div className="col-md-12">
               <button
                 type="button"
-                className="btn btn-success mb-2 pull-right"
+                className="btn btn-success mb-2"
                 onClick={() => {
                   this.setState({
                     showMatchForm: !this.state.showMatchForm
@@ -48,6 +49,20 @@ class Matches extends Component {
               </button>
               {this.state.showMatchForm ? <MatchForm /> : null}
               {matchContent}
+              <Pagination
+                className="float-right"
+                aria-label="Page navigation example"
+              >
+                <PaginationItem>
+                  <PaginationLink previous href="#" />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">1</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink next href="#" />
+                </PaginationItem>
+              </Pagination>
             </div>
           </div>
         </div>
