@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
 import SelectListGroup from "../common/SelectListGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
-import { addTeam } from "../../actions/teamActions";
+import { addTeam, getTeams } from "../../actions/teamActions";
+import { defaultTeams } from "./TeamsDataForm";
 
 class TeamForm extends Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class TeamForm extends Component {
       info: "",
       errors: {}
     };
+    // console.log(this.props);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -39,19 +42,35 @@ class TeamForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  filterOptions = (teams, options) => {
+    return options.filter(option => {
+      let value = option.value;
+      let exists = false;
+
+      teams.map(team => {
+        if (team.country === value) {
+          return (exists = true);
+        }
+      });
+
+      if (exists) {
+        return null;
+      } else {
+        return option;
+      }
+    });
+  };
+
   render() {
+    const { teams } = this.props;
     const { errors } = this.state;
-    const options = [
-      { label: "Wybierz drużynę", value: 0 },
-      { label: "Polska", value: "Polska_Pl" },
-      { label: "Niemcy", value: "Niemcy_De" },
-      { label: "Francja", value: "Francja_Fr" },
-      { label: "Włochy", value: "Włochy_It" },
-      { label: "Anglia", value: "Anglia_En" },
-      { label: "Hiszpania", value: "Hiszpania_Es" },
-      { label: "Rosja", value: "Rosja_Ru" },
-      { label: "Szwecja", value: "Szwecja_Se" }
-    ];
+
+    let options = defaultTeams;
+
+    // remove teams from options whitch already have been added
+    if (teams.length > 0) {
+      options = this.filterOptions(teams, defaultTeams);
+    }
 
     return (
       <div className="post-form mb-3">
@@ -91,10 +110,12 @@ class TeamForm extends Component {
 
 TeamForm.propTypes = {
   addTeam: PropTypes.func.isRequired,
+  getTeams: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
+  teams: state.team.teams,
   country: state.country,
   info: state.info,
   auth: state.auth,
@@ -103,5 +124,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addTeam }
+  { addTeam, getTeams }
 )(TeamForm);

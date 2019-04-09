@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
 import { deleteMatch, updateMatch } from "../../actions/matchActions";
 import { addMatchFinals } from "../../actions/matchFinalActions";
 import TextFieldGroup from "../common/TextFieldGroup";
@@ -163,11 +164,11 @@ class MatchItem extends Component {
           >
             Obstaw
           </button>
-          {this.state.showMatchBettingUser ? (
+          {this.state.showMatchBettingUser && match.disabled !== 1 ? (
             <MatchBettingUserForm match={match} />
           ) : null}
         </div>
-        {this.state.showMatchForm ? (
+        {this.state.showMatchForm && match.disabled !== 1 ? (
           <form onSubmit={this.onSubmit}>
             <div className="row">
               <div className="col-md-3 text-center">

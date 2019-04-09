@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const passport = require("passport");
 
 // Match Model
@@ -54,12 +53,6 @@ router.post(
   "/betting/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validateMatchInput(req.body);
-
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
-
     // console.log(req.params.id);
     Match.findById(req.params.id)
       .then(match => {
@@ -154,8 +147,14 @@ router.post(
       date: req.body.date,
       disabled: 0
     });
-    console.log(newMatch);
-    newMatch.save().then(match => res.json(match));
+    // console.log(newMatch);
+    newMatch
+      .save()
+      .then(match =>
+        res
+          .json(match)
+          .catch(err => res.status(400).json({ matchnotadd: "matchnotadd" }))
+      );
   }
 );
 
@@ -166,11 +165,11 @@ router.post(
   "/update/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validateMatchInput(req.body);
+    // const { errors, isValid } = validateMatchInput(req.body);
 
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
+    // if (!isValid) {
+    //   return res.status(400).json(errors);
+    // }
 
     Match.findById(req.params.id)
       .then(match => {
@@ -202,15 +201,16 @@ router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Match.findById(req.params.id)
-      .then(match => {
-        /*  toDo
-          if (post.user.toString() !== req.user.id) {
-            return res.status(401).json({ noauthorized: "User not found" });
-          }  */
-        match.remove().then(() => res.json({ success: true }));
-      })
-      .catch(err => res.status(404).json({ postnotfound: "No match found" }));
+    Match.deleteOne({ _id: req.params.id })
+      .then(match => res.json(match))
+      .catch(err =>
+        res.status(404).json({ nomatchfound: `No match found with id` })
+      );
+    // Match.findById(req.params.id)
+    //   .then(match => {
+    //     match.remove().then(() => res.json({ success: true }));
+    //   })
+    //   .catch(err => res.status(404).json({ postnotfound: "No match found" }));
   }
 );
 

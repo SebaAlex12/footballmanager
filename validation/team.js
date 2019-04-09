@@ -5,11 +5,11 @@ module.exports = function validateTeamInput(data) {
   let errors = {};
 
   if (Validator.isEmpty(data.country)) {
-    errors.country = "Country name is required";
+    errors.country = "Kraj drużyny jest wymagany";
   }
 
   if (Validator.isEmpty(data.info)) {
-    errors.info = "Information is required";
+    errors.info = "Informacja o drużynie jest wymagana";
   }
 
   return {

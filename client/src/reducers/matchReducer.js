@@ -57,7 +57,9 @@ export default function(state = initialState, action) {
     case DELETE_MATCH:
       return {
         ...state,
-        matches: state.matches.filter(match => match._id !== action.payload._id)
+        matches: [
+          ...state.matches.filter(match => match._id !== action.payload)
+        ]
       };
     default:
       return state;

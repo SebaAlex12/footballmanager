@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
+import { defaultTeams } from "../teams/TeamsDataForm";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { addMatch } from "../../actions/matchActions";
@@ -65,18 +67,8 @@ class MatchForm extends Component {
 
   render() {
     const { errors, teams } = this.state;
-    console.log(this.state);
-    const options = [
-      { label: "Wybierz drużynę", value: 0 },
-      { label: "Polska", value: "Polska_Pl" },
-      { label: "Niemcy", value: "Niemcy_De" },
-      { label: "Francja", value: "Francja_Fr" },
-      { label: "Włochy", value: "Włochy_It" },
-      { label: "Anglia", value: "Anglia_En" },
-      { label: "Hiszpania", value: "Hiszpania_Es" },
-      { label: "Rosja", value: "Rosja_Ru" },
-      { label: "Szwecja", value: "Szwecja_Se" }
-    ];
+
+    const options = defaultTeams;
 
     return (
       <div className="post-form mb-3">

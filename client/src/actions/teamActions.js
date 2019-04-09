@@ -52,7 +52,7 @@ export const getCurrentTeam = id => dispatch => {
     .then(res =>
       dispatch({
         type: GET_TEAM,
-        payload: id
+        payload: res.data
       })
     )
     .catch(err =>

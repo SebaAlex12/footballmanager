@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
 import MatchForm from "./MatchForm";
 import MatchFeed from "./MatchFeed";
 import Spinner from "../common/spinner";
