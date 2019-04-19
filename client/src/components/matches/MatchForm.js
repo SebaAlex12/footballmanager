@@ -21,6 +21,9 @@ class MatchForm extends Component {
       firstTeamSecondHalfGoals: "",
       secondTeamFirstHalfGoals: "",
       secondTeamSecondHalfGoals: "",
+      defaultTeams: defaultTeams,
+      firstTeamDefaultTeams: defaultTeams,
+      secondTeamDefaultTeams: [],
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
@@ -62,13 +65,38 @@ class MatchForm extends Component {
   }
 
   onChange(e) {
+    // validate do not allow to choose the same team for one match
+    if (
+      e.target.name === "firstTeamName" ||
+      e.target.name === "secondTeamName"
+    ) {
+      const defaultTeams = this.state.defaultTeams.filter(team => {
+        return team.value != e.target.value;
+      });
+      if (e.target.name === "firstTeamName") {
+        this.setState({
+          secondTeamDefaultTeams: defaultTeams
+        });
+      }
+      if (e.target.name === "secondTeamName") {
+        this.setState({
+          firstTeamDefaultTeams: defaultTeams
+        });
+      }
+    }
+
     this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
-    const { errors, teams } = this.state;
+    const {
+      errors,
+      teams,
+      firstTeamDefaultTeams,
+      secondTeamDefaultTeams
+    } = this.state;
 
-    const options = defaultTeams;
+    // const options = defaultTeams;
 
     return (
       <div className="post-form mb-3">
@@ -108,7 +136,7 @@ class MatchForm extends Component {
                     name="firstTeamName"
                     value={this.state.firstTeamName}
                     onChange={this.onChange}
-                    options={options}
+                    options={firstTeamDefaultTeams}
                     error={errors.firstTeamName}
                   />
                   <SelectListGroup
@@ -116,7 +144,7 @@ class MatchForm extends Component {
                     name="secondTeamName"
                     value={this.state.secondTeamName}
                     onChange={this.onChange}
-                    options={options}
+                    options={secondTeamDefaultTeams}
                     error={errors.secondTeamName}
                   />
                 </div>
