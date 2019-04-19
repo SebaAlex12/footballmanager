@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 
+const moment = require("moment");
+
 // Match Model
 const Match = require("../../models/Match");
 
@@ -124,6 +126,11 @@ router.post(
       return res.status(400).json(errors);
     }
 
+    const dateFormat = moment(
+      `${req.body.date} ${req.body.time}`,
+      "YYYY-MM-DD HH:mm:ss"
+    ).format();
+
     const newMatch = new Match({
       user: req.user.id,
       firstTeamName: req.body.firstTeamName,
@@ -144,17 +151,14 @@ router.post(
         req.body.secondTeamSecondHalfGoals === ""
           ? 0
           : req.body.secondTeamSecondHalfGoals,
-      date: req.body.date,
+      date: dateFormat,
       disabled: 0
     });
     // console.log(newMatch);
     newMatch
       .save()
-      .then(match =>
-        res
-          .json(match)
-          .catch(err => res.status(400).json({ matchnotadd: "matchnotadd" }))
-      );
+      .then(match => res.json(match))
+      .catch(err => res.status(400).json({ matchnotadd: "matchnotadd" }));
   }
 );
 

@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { isEmpty } from "../../validation/is-empty";
 import { defaultTeams } from "../teams/TeamsDataForm";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { addMatch } from "../../actions/matchActions";
 import { getTeams } from "../../actions/teamActions";
-import moment from "moment";
 
 class MatchForm extends Component {
   constructor(props) {
@@ -23,37 +23,29 @@ class MatchForm extends Component {
       secondTeamSecondHalfGoals: "",
       defaultTeams: defaultTeams,
       firstTeamDefaultTeams: defaultTeams,
-      secondTeamDefaultTeams: [],
+      secondTeamDefaultTeams: [{ label: "Wybierz drużynę", value: "" }],
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  componentWillMount() {
-    // console.log("ddd");
     this.props.getTeams();
-    // console.log(this.state);
-    // // console.log(this.props.getTeams());
+    console.log("constructor");
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.errors) {
-      this.setState({ errors: newProps.errors });
-    }
-    //  console.log(newProps.errors);
+  static getDerivedStateFromProps(props, state) {
+    console.log("getderivedstatefromprops");
+    const errors = props.errors ? props.errors : {};
+    return {
+      errors: errors
+    };
   }
 
   onSubmit(e) {
     e.preventDefault();
 
-    const dateToFormat = moment(
-      `${this.state.date} ${this.state.time}`,
-      "YYYY-MM-DD HH:mm:ss"
-    ).format();
-
     const newMatch = {
-      date: dateToFormat,
+      date: this.state.date,
+      time: this.state.time,
       firstTeamName: this.state.firstTeamName,
       secondTeamName: this.state.secondTeamName,
       firstTeamFirstHalfGoals: this.state.firstTeamFirstHalfGoals,
@@ -70,17 +62,22 @@ class MatchForm extends Component {
       e.target.name === "firstTeamName" ||
       e.target.name === "secondTeamName"
     ) {
-      const defaultTeams = this.state.defaultTeams.filter(team => {
-        return team.value != e.target.value;
-      });
+      // reset list if default value has been choosen
+      const teams =
+        e.target.value === ""
+          ? this.state.defaultTeams
+          : this.state.defaultTeams.filter(team => {
+              return team.value !== e.target.value;
+            });
+
       if (e.target.name === "firstTeamName") {
         this.setState({
-          secondTeamDefaultTeams: defaultTeams
+          secondTeamDefaultTeams: teams
         });
       }
       if (e.target.name === "secondTeamName") {
         this.setState({
-          firstTeamDefaultTeams: defaultTeams
+          firstTeamDefaultTeams: teams
         });
       }
     }
@@ -91,13 +88,10 @@ class MatchForm extends Component {
   render() {
     const {
       errors,
-      teams,
       firstTeamDefaultTeams,
       secondTeamDefaultTeams
     } = this.state;
-
-    // const options = defaultTeams;
-
+    // console.log(errors);
     return (
       <div className="post-form mb-3">
         {/* <Moment format="D MMM YYYY">1976-04-19T12:59-0500</Moment> */}
@@ -123,9 +117,18 @@ class MatchForm extends Component {
                     <input
                       type="time"
                       name="time"
+                      className={
+                        errors.time
+                          ? "form-control form-control-lg is-invalid"
+                          : "form-control form-control-lg"
+                      }
                       value={this.state.time}
                       onChange={this.onChange}
+                      error={errors.time}
                     />
+                    {errors.time ? (
+                      <div className="invalid-feedback">{errors.time}</div>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -181,7 +184,11 @@ class MatchForm extends Component {
                   />
                 </div>
               </div>
-              <button type="submit" className="btn btn-dark float-right">
+              <button
+                type="submit"
+                onClick={this.onSubmit}
+                className="btn btn-dark float-right"
+              >
                 Dodaj
               </button>
             </form>

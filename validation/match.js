@@ -12,6 +12,14 @@ module.exports = function validateMatchInput(data) {
     errors.secondTeamName = "Wybierz drugą drużynę";
   }
 
+  if (Validator.isEmpty(data.date)) {
+    errors.date = "Wybierz datę";
+  }
+
+  if (Validator.isEmpty(data.time)) {
+    errors.time = "Wybierz godzinę";
+  }
+
   return {
     errors,
     isValid: isEmpty(errors)

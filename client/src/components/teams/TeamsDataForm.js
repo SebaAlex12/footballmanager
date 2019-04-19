@@ -1,7 +1,7 @@
 /*  in the future it will be replaced by api data */
 
 export const defaultTeams = [
-  { label: "Wybierz drużynę", value: 0 },
+  { label: "Wybierz drużynę", value: "" },
   { label: "Polska", value: "Polska_Pl" },
   { label: "Niemcy", value: "Niemcy_De" },
   { label: "Francja", value: "Francja_Fr" },
