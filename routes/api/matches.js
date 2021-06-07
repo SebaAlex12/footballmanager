@@ -15,6 +15,13 @@ const validateMatchInput = require("../../validation/match");
 // @access Public
 router.get("/test", (req, res) => res.json({ msg: "matches works" }));
 
+// @route GET api/matches/imports
+// @desc test match route
+// @access Public
+router.post("/imports", (req, res) => {
+    console.log("req body imports", req.body.imports);
+});
+
 // @route GET api/matches
 // @desc get matches
 // @access Public

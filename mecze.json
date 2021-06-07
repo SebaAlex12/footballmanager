@@ -1,0 +1,110 @@
+[
+    {
+      "line": "11-cze-21;Turcja;21:00;Włchy"
+    },
+    {
+      "line": "12-cze-21;Walia;15:00;Szwajcaria"
+    },
+    {
+      "line": "16-cze-21;Turcja;18:00;Walia"
+    },
+    {
+      "line": "16-cze-21;Włchy;21:00;Szwajcaria"
+    },
+    {
+      "line": "20-cze-21;Szwajcaria;18:00;Turcja"
+    },
+    {
+      "line": "20-cze-21;Włchy;18:00;Walia"
+    },
+    {
+      "line": "12-cze-21;Dania;18:00;Finlandia"
+    },
+    {
+      "line": "12-cze-21;Belgia;21:00;Rosja"
+    },
+    {
+      "line": "16-cze-21;Finlandia;15:00;Rosja"
+    },
+    {
+      "line": "17-cze-21;Dania;18:00;Belgia"
+    },
+    {
+      "line": "21-cze-21;Rosja;21:00;Dania"
+    },
+    {
+      "line": "21-cze-21;Finlandia;21:00;Belgia"
+    },
+    {
+      "line": "13-cze-21;Austria;18:00;Macedonia Północna"
+    },
+    {
+      "line": "13-cze-21;Holandia;21:00;Ukraina"
+    },
+    {
+      "line": "17-cze-21;Ukraina;15:00;Macedonia Północna"
+    },
+    {
+      "line": "17-cze-21;Holandia;21:00;Austria"
+    },
+    {
+      "line": "21-cze-21;Macedonia Północna;18:00;Holandia"
+    },
+    {
+      "line": "21-cze-21;Ukraina;18:00;Austria"
+    },
+    {
+      "line": "13-cze-21;Anglia;15:00;Chorwacja"
+    },
+    {
+      "line": "14-cze-21;Szkocja;15:00;Czechy"
+    },
+    {
+      "line": "18-cze-21;Chorwacja;18:00;Czechy"
+    },
+    {
+      "line": "18-cze-21;Anglia;21:00;Szkocja"
+    },
+    {
+      "line": "22-cze-21;Chorwacja;21:00;Szkocja"
+    },
+    {
+      "line": "22-cze-21;Czechy;21:00;Anglia"
+    },
+    {
+      "line": "14-cze-21;Polska;18:00;Słwacja"
+    },
+    {
+      "line": "14-cze-21;Hiszpania;21:00;Szwecja"
+    },
+    {
+      "line": "18-cze-21;Szwecja;15:00;Słwacja"
+    },
+    {
+      "line": "19-cze-21;Hiszpania;21:00;Polska"
+    },
+    {
+      "line": "23-cze-21;Słwacja;18:00;Hiszpania"
+    },
+    {
+      "line": "23-cze-21;Szwecja;18:00;Polska"
+    },
+    {
+      "line": "15-cze-21;Węgry;18:00;Portugalia"
+    },
+    {
+      "line": "15-cze-21;Francja;21:00;Niemcy"
+    },
+    {
+      "line": "19-cze-21;Węgry;15:00;Francja"
+    },
+    {
+      "line": "19-cze-21;Portugalia;18:00;Niemcy"
+    },
+    {
+      "line": "23-cze-21;Niemcy;21:00;Węgry"
+    },
+    {
+      "line": "23-cze-21;Portugalia;21:00;Francja"
+    }
+  ]

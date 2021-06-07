@@ -5,12 +5,14 @@ import {
   UPDATE_MATCH,
   UPDATE_MATCH_BETTING,
   DELETE_MATCH,
-  MATCH_LOADING
+  MATCH_LOADING,
+  IMPORT_MATCHES
 } from "../actions/types";
 
 const initialState = {
   matches: [],
   match: {},
+  imports: false,
   loading: false
 };
 
@@ -61,6 +63,11 @@ export default function(state = initialState, action) {
           ...state.matches.filter(match => match._id !== action.payload)
         ]
       };
+    case IMPORT_MATCHES:
+      return{
+        ...state,
+        imports: action.payload
+      }
     default:
       return state;
   }

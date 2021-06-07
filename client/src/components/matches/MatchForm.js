@@ -29,11 +29,9 @@ class MatchForm extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.props.getTeams();
-    console.log("constructor");
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log("getderivedstatefromprops");
     const errors = props.errors ? props.errors : {};
     return {
       errors: errors
@@ -91,7 +89,7 @@ class MatchForm extends Component {
       firstTeamDefaultTeams,
       secondTeamDefaultTeams
     } = this.state;
-    // console.log(errors);
+
     return (
       <div className="post-form mb-3">
         {/* <Moment format="D MMM YYYY">1976-04-19T12:59-0500</Moment> */}

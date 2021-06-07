@@ -12,6 +12,7 @@ export const GET_MATCHES = "GET_MATCHES";
 export const GET_MATCH = "GET_MATCH";
 export const ADD_MATCH = "ADD_MATCH";
 export const UPDATE_MATCH = "UPDATE_MATCH";
+export const IMPORT_MATCHES = "IMPORT_MATCHES";
 export const UPDATE_MATCH_BETTING = "UPDATE_MATCH_BETTING";
 export const DELETE_MATCH = "DELETE_MATCH";
 export const MATCH_LOADING = "MATCH_LOADING";

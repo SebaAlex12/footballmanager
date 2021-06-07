@@ -7,6 +7,7 @@ import {
   UPDATE_MATCH,
   UPDATE_MATCH_BETTING,
   DELETE_MATCH,
+  IMPORT_MATCHES,
   GET_ERRORS
 } from "./types";
 
@@ -121,6 +122,24 @@ export const deleteMatch = id => dispatch => {
       })
     );
 };
+
+// Import matches
+export const importMatches = matchData => dispatch => {
+  axios.post("/api/matches/imports", matchData)
+  .then(
+    res => 
+    dispatch({
+      type: IMPORT_MATCHES,
+      payload: true
+    })
+  )
+  .catch(err => 
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    })  
+  )
+}
 
 //Set loading state
 

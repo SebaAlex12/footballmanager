@@ -8,11 +8,14 @@ import Spinner from "../common/spinner";
 import { getMatches } from "../../actions/matchActions";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
+import MatchImportForm from "./MatchImportForm";
+
 class Matches extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMatchForm: false
+      showMatchForm: false,
+      showImportForm: false
     };
   }
   componentDidMount() {
@@ -48,7 +51,17 @@ class Matches extends Component {
               >
                 dodaj mecz
               </button>
-              {this.state.showMatchForm ? <MatchForm /> : null}
+              <button
+                type="button"
+                className="btn btn-success mb-2"
+                onClick={() => this.setState({
+                  showImportForm: !this.state.showImportForm
+                })}
+              >
+                import
+              </button>
+              {this.state.showMatchForm && <MatchForm />}
+              {this.state.showImportForm && <MatchImportForm />}
               {matchContent}
               <Pagination
                 className="float-right"
