@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import Administrators from "../../Admin";
+
 import { deleteMatch, updateMatch } from "../../actions/matchActions";
 import { addMatchFinals } from "../../actions/matchFinalActions";
 import TextFieldGroup from "../common/TextFieldGroup";
@@ -56,7 +58,6 @@ class MatchItem extends Component {
   }
 
   onFinalClick(id) {
-    //  console.log(this.props.auth);
 
     const finalData = {
       matchId: id
@@ -70,11 +71,26 @@ class MatchItem extends Component {
   }
 
   render() {
-    const { match } = this.props;
+    const { match, counter } = this.props;
+    const { user } = this.props.auth;
     const firstTeamName = this.state.firstTeamName.split("_")[0];
     const firstTeamSufix = this.state.firstTeamName.split("_")[1];
     const secondTeamName = this.state.secondTeamName.split("_")[0];
     const secondTeamSufix = this.state.secondTeamName.split("_")[1];
+
+    const formButton = Administrators.includes(user.name) ? (
+      <button
+              className="btn btn-light float-right"
+              style={{ cursor: "pointer", fontSize: "20px" }}
+              onClick={() => {
+                this.setState({
+                  showMatchForm: !this.state.showMatchForm
+                });
+              }}
+            >
+              Formularz
+            </button>
+    ) : null;
 
     return (
       <div
@@ -91,6 +107,7 @@ class MatchItem extends Component {
             style={{ fontWeight: "bold" }}
           >
             <p className="text-white mb-0 mr-4">
+              [{counter}] 
               Termin rozgrywki:{" "}
               <Moment format="YYYY-MM-DD HH:mm">{match.date}</Moment>
             </p>
@@ -127,17 +144,7 @@ class MatchItem extends Component {
                 goals={match.secondTeamSecondHalfGoals}
               />
             </div>
-            <button
-              className="btn btn-light float-right"
-              style={{ cursor: "pointer", fontSize: "20px" }}
-              onClick={() => {
-                this.setState({
-                  showMatchForm: !this.state.showMatchForm
-                });
-              }}
-            >
-              Formularz
-            </button>
+            { formButton }
             <button
               className="btn btn-dark float-right"
               style={{ cursor: "pointer", fontSize: "20px" }}

@@ -55,6 +55,7 @@ class MatchForm extends Component {
   }
 
   onChange(e) {
+    console.log("e.target.value",e.target.value);
     // validate do not allow to choose the same team for one match
     if (
       e.target.name === "firstTeamName" ||

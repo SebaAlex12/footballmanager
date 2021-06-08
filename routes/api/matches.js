@@ -19,17 +19,58 @@ router.get("/test", (req, res) => res.json({ msg: "matches works" }));
 // @desc test match route
 // @access Public
 router.post("/imports", (req, res) => {
-    console.log("req body imports", req.body.imports);
+
+    const matches = JSON.parse(req.body.imports);
+    matches.forEach( item = (item) => {
+
+      // explode item line
+      const elements = item["line"].split(";");
+
+      console.log("elements",elements);
+
+      const dateFormat = moment(
+        `${elements[0]} ${elements[2]}`,
+        "YYYY-MM-DD HH:mm:ss"
+      ).format();
+  
+      const newMatch = new Match({
+        firstTeamName: elements[1],
+        secondTeamName: elements[3],
+        firstTeamFirstHalfGoals:0,
+        firstTeamSecondHalfGoals:0,
+        secondTeamFirstHalfGoals:0,
+        secondTeamSecondHalfGoals:0,
+        date: dateFormat,
+        disabled: 0
+      });
+      console.log(newMatch);
+      newMatch
+        .save()
+        .then(match => res.json(match))
+        .catch(err => res.status(400).json({ matchnotadd: "matchnotadd" }));
+
+    });
+
 });
 
 // @route GET api/matches
 // @desc get matches
 // @access Public
-router.get("/", (req, res) => {
-  Match.find()
-    .sort({ date: -1 })
-    .then(matches => res.json(matches))
-    .catch(err => res.status(404).json({ nomatchesfound: `No matches found` }));
+router.get("/", async(req, res) => {
+  try{
+    const matches = await Match.find({}, null, {
+        sort: { date: "asc" },
+    });
+    if(matches){
+      return res.json(matches);
+    }
+  }catch(err){
+    return res.status(404).json({ nomatchesfound: `No matches found` });
+  }
+  // Match.find()
+  //   .sort({ date: -1 })
+  //   .then(matches => res.json(matches))
+  //   .catch(err => res.status(404).json({ nomatchesfound: `No matches found` }));
 });
 
 // @route GET api/matches/:id

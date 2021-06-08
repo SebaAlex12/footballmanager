@@ -8,6 +8,8 @@ import Spinner from "../common/spinner";
 import { getMatches } from "../../actions/matchActions";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
+import Administrators from "../../Admin";
+
 import MatchImportForm from "./MatchImportForm";
 
 class Matches extends Component {
@@ -27,39 +29,54 @@ class Matches extends Component {
 
   render() {
     const { matches, loading } = this.props.match;
+    const { user } = this.props.auth;
 
     let matchContent;
 
     if (matches === null || loading || matches.length === 0) {
       matchContent = <Spinner />;
     } else {
-      matchContent = <MatchFeed matches={matches} />;
+      matchContent = (
+        <React.Fragment>
+            <div className="counter">Liczba meczów: {matches.length}</div>
+            <MatchFeed matches={matches} />
+        </React.Fragment>
+      )
     }
+
+    const addMatchButton = Administrators.includes(user.name) ? (
+        <button
+        type="button"
+        className="btn btn-success mb-2"
+        onClick={() => {
+          this.setState({
+            showMatchForm: !this.state.showMatchForm
+          });
+        }}
+      >
+        dodaj mecz
+      </button>
+    ) : null;
+
+    const importMatchesButton = Administrators.includes(user.name) ? (
+        <button
+          type="button"
+          className="btn btn-success mb-2"
+          onClick={() => this.setState({
+            showImportForm: !this.state.showImportForm
+          })}
+        >
+          import
+        </button>
+    ) : null;
+
     return (
       <div className="feed matches-box">
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <button
-                type="button"
-                className="btn btn-success mb-2"
-                onClick={() => {
-                  this.setState({
-                    showMatchForm: !this.state.showMatchForm
-                  });
-                }}
-              >
-                dodaj mecz
-              </button>
-              <button
-                type="button"
-                className="btn btn-success mb-2"
-                onClick={() => this.setState({
-                  showImportForm: !this.state.showImportForm
-                })}
-              >
-                import
-              </button>
+              { addMatchButton }
+              { importMatchesButton }
               {this.state.showMatchForm && <MatchForm />}
               {this.state.showImportForm && <MatchImportForm />}
               {matchContent}
