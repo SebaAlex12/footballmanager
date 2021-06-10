@@ -41,7 +41,8 @@ router.post("/imports", (req, res) => {
         secondTeamFirstHalfGoals:0,
         secondTeamSecondHalfGoals:0,
         date: dateFormat,
-        disabled: 0
+        disabled: 0,
+        closed: 0
       });
       console.log(newMatch);
       newMatch
@@ -200,7 +201,8 @@ router.post(
           ? 0
           : req.body.secondTeamSecondHalfGoals,
       date: dateFormat,
-      disabled: 0
+      disabled: 0,
+      closed: 0
     });
     // console.log(newMatch);
     newMatch
@@ -222,7 +224,7 @@ router.post(
     // if (!isValid) {
     //   return res.status(400).json(errors);
     // }
-
+    
     Match.findById(req.params.id)
       .then(match => {
         if (req.body.firstTeamFirstHalfGoals)
@@ -233,7 +235,8 @@ router.post(
           match.secondTeamFirstHalfGoals = req.body.secondTeamFirstHalfGoals;
         if (req.body.secondTeamSecondHalfGoals)
           match.secondTeamSecondHalfGoals = req.body.secondTeamSecondHalfGoals;
-        if (req.body.disabled) match.disabled = req.body.disabled;
+        if (typeof req.body.disabled !== 'undefined') match.disabled = req.body.disabled;
+        if (typeof req.body.closed !== 'undefined') match.closed = req.body.closed;
 
         match
           .save()

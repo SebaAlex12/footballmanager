@@ -37,29 +37,37 @@
 .betting-user-fom-box label {
   width: 100px;
 }
+.matches-box .closed,
 .matches-box .disabled {
   position: relative;
 }
 
+.closed:before,
 .disabled:before {
   position: absolute;
   content: "";
   left: 0px;
   right: 0px;
-  top: 0px;
+  height: 40px;
   bottom: 0px;
   background-color: rgba(1, 1, 1, 0.6);
   z-index: 99;
 }
+.closed:after,
 .disabled:after {
   position: absolute;
-  content: "Mecz zablokowany";
   z-index: 100;
   bottom: 0px;
   left: 5px;
   text-align: center;
-  color: rgb(1, 1, 1);
-  font-size: 30px;
+  color: grey;
+  font-size: 25px;
+}
+.closed:after {
+  content: "Mecz zamknięty";
+}
+.disabled:after {
+  content: "Mecz zablokowany";
 }
 
 /*  legend  */

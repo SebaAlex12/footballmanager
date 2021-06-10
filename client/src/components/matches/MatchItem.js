@@ -24,6 +24,7 @@ class MatchItem extends Component {
       secondTeamFirstHalfGoals: props.match.secondTeamFirstHalfGoals,
       secondTeamSecondHalfGoals: props.match.secondTeamSecondHalfGoals,
       disabled: 0,
+      closed: 0,
       showMatchForm: false,
       showMatchBettingFeed: false,
       showMatchBettingUser: false
@@ -33,9 +34,10 @@ class MatchItem extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onDeleteClick(id) {
-    this.props.deleteMatch(id);
-  }
+  // delete match has been disabled
+  // onDeleteClick(id) {
+  //   this.props.deleteMatch(id);
+  // }
 
   onSubmit(e) {
     e.preventDefault();
@@ -57,6 +59,15 @@ class MatchItem extends Component {
     this.props.updateMatch(matchData);
   }
 
+  onDisableClick(id) {
+    const { match } = this.props;
+    const matchData = {
+      id: id,
+      disabled: match.disabled === 0 ? 1 : 0
+    }
+    this.props.updateMatch(matchData);
+  }
+
   onFinalClick(id) {
 
     const finalData = {
@@ -64,7 +75,12 @@ class MatchItem extends Component {
     };
     const matchData = {
       id: id,
-      disabled: 1
+      firstTeamFirstHalfGoals: this.state.firstTeamFirstHalfGoals,
+      firstTeamSecondHalfGoals: this.state.firstTeamSecondHalfGoals,
+      secondTeamFirstHalfGoals: this.state.secondTeamFirstHalfGoals,
+      secondTeamSecondHalfGoals: this.state.secondTeamSecondHalfGoals,
+      disabled: 1,
+      closed: 1
     };
     this.props.addMatchFinals(finalData);
     this.props.updateMatch(matchData);
@@ -73,12 +89,13 @@ class MatchItem extends Component {
   render() {
     const { match, counter } = this.props;
     const { user } = this.props.auth;
+    const { showMatchBettingUser } = this.state;
     const firstTeamName = this.state.firstTeamName.split("_")[0];
     const firstTeamSufix = this.state.firstTeamName.split("_")[1];
     const secondTeamName = this.state.secondTeamName.split("_")[0];
     const secondTeamSufix = this.state.secondTeamName.split("_")[1];
 
-    const formButton = Administrators.includes(user.name) ? (
+    const formButton = Administrators.includes(user.name) && match.closed === 0 ? (
       <button
               className="btn btn-light float-right"
               style={{ cursor: "pointer", fontSize: "20px" }}
@@ -92,9 +109,34 @@ class MatchItem extends Component {
             </button>
     ) : null;
 
+    const switchDisableButton = Administrators.includes(user.name) && match.closed === 0 ? (
+      <button
+              className={`btn float-right ${match.disabled === 1 ? "btn-danger" : "btn-secondary"}`}
+              style={{ cursor: "pointer", fontSize: "20px" }}
+              onClick={() => this.onDisableClick(match._id)}
+            >
+              { match.disabled ? "Odblokuj" : "Zablokuj" }
+            </button>
+    ) : null;
+
+    let statusClass = "";
+    if(match.disabled === 1){
+      statusClass = "disabled";
+    }
+    if(match.closed === 1){
+      statusClass = "closed";
+    }
+
+    let matchBettingContent = null;
+    if(match.closed !== 1 && match.disabled !== 1){
+      if(showMatchBettingUser){
+          matchBettingContent = <MatchBettingUserForm match={match} />
+      }
+    }
+
     return (
       <div
-        className={match.disabled === 1 ? "disabled" : ""}
+        className={statusClass}
         style={{
           marginBottom: "10px",
           border: "1px solid rgba(0,0,0,.125)",
@@ -144,6 +186,7 @@ class MatchItem extends Component {
                 goals={match.secondTeamSecondHalfGoals}
               />
             </div>
+            { switchDisableButton }
             { formButton }
             <button
               className="btn btn-dark float-right"
@@ -157,25 +200,7 @@ class MatchItem extends Component {
               Lista zakładów
             </button>
           </div>
-          {this.state.showMatchBettingFeed ? (
-            <MatchBettingsFeed bettings={match.bettings} match={match} />
-          ) : null}
-          <button
-            type="button"
-            className="btn btn-success mb-auto mb-1"
-            onClick={() => {
-              this.setState({
-                showMatchBettingUser: !this.state.showMatchBettingUser
-              });
-            }}
-          >
-            Obstaw
-          </button>
-          {this.state.showMatchBettingUser && match.disabled !== 1 ? (
-            <MatchBettingUserForm match={match} />
-          ) : null}
-        </div>
-        {this.state.showMatchForm && match.disabled !== 1 ? (
+        {this.state.showMatchForm && match.closed !== 1 ? (
           <form onSubmit={this.onSubmit}>
             <div className="row">
               <div className="col-md-3 text-center">
@@ -263,17 +288,33 @@ class MatchItem extends Component {
                 >
                   finalizuj
                 </button>
-                <button
+                {/* <button
                   onClick={this.onDeleteClick.bind(this, match._id)}
                   type="button"
                   className="btn btn-danger mt-1 float-right"
                 >
                   <i className="fas fa-times" />
-                </button>
+                </button> */}
               </div>
             </div>
           </form>
         ) : null}
+        {this.state.showMatchBettingFeed ? (
+            <MatchBettingsFeed bettings={match.bettings} match={match} />
+        ) : null}
+        <button
+            type="button"
+            className="btn btn-success mb-auto mb-1"
+            onClick={() => {
+              this.setState({
+                showMatchBettingUser: !this.state.showMatchBettingUser
+              });
+            }}
+          >
+            Obstaw
+        </button>
+        { matchBettingContent }
+        </div>
       </div>
     );
   }

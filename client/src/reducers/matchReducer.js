@@ -43,25 +43,23 @@ export default function(state = initialState, action) {
     case UPDATE_MATCH:
       return {
         ...state,
-        matches: [
-          action.payload,
-          ...state.matches.filter(match => match._id !== action.payload._id)
-        ]
+        matches: state.matches.map(match => {
+          return match._id === action.payload._id ? action.payload : match;
+        })
       };
     case UPDATE_MATCH_BETTING:
       return {
         ...state,
-        matches: [
-          action.payload,
-          ...state.matches.filter(match => match._id !== action.payload._id)
-        ]
+        matches: state.matches.map(match => {
+          return match._id === action.payload._id ? action.payload : match;
+        })
       };
     case DELETE_MATCH:
       return {
         ...state,
-        matches: [
-          ...state.matches.filter(match => match._id !== action.payload)
-        ]
+        matches: state.matches.map(match => {
+          return match._id === action.payload._id ? action.payload : match;
+        })
       };
     case IMPORT_MATCHES:
       return{

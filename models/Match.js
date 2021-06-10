@@ -52,6 +52,9 @@ const MatchSchema = new Schema({
   disabled: {
     type: Number
   },
+  closed: {
+    type: Number
+  },
   date: {
     type: Date,
     default: Date.now
