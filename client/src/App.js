@@ -16,6 +16,8 @@ import Register from "./components/auth/Register";
 import Teams from "./components/teams/Teams";
 import Matches from "./components/matches/Matches";
 
+import { Container } from "./themes/basic";
+
 import "./App.scss";
 
 // Check for token
@@ -44,12 +46,12 @@ class App extends Component {
             <Navbar />
             <Route exact path="/" component={Landing} />
             <Route exact path="/dashboard" component={Dashboard} />
-            <div className="container">
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/teams_feed" component={Teams} />
-              <Route exact path="/matches_feed" component={Matches} />
-            </div>
+            <Container>
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/teams_feed" component={Teams} />
+                <Route exact path="/matches_feed" component={Matches} />
+            </Container>
             <Footer />
           </div>
         </Router>

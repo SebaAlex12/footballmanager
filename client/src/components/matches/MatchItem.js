@@ -71,7 +71,6 @@ class MatchItem extends Component {
   }
 
   onFinalClick(id) {
-
     const finalData = {
       matchId: id
     };
@@ -287,7 +286,7 @@ class MatchItem extends Component {
               </div>
               <div className="col-md-12 float-right d-flex flex-column">
                 <button
-                  onClick={this.onFinalClick.bind(this, match._id)}
+                  onClick={ () => window.confirm('Spowoduje bezpowrotne zamkniecie meczu !') && this.onFinalClick(match._id) }
                   type="button"
                   className="btn mt-1 float-right"
                 >
@@ -305,7 +304,7 @@ class MatchItem extends Component {
           </form>
         ) : null}
         {this.state.showMatchBettingFeed ? (
-            <MatchBettingsFeed bettings={matchBettingsFiltered} match={match} />
+              <MatchBettingsFeed bettings={matchBettingsFiltered} match={match} />
         ) : null}
         <button
             type="button"

@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import MatchFinals from "../matchFinals/MatchFinals";
 import MatchLegend from "../matches/MatchLegend";
 
+import { Container } from "../../themes/basic";
+
 class Dashboard extends Component {
   componentDidMount() {
     if (this.props.auth.isAuthenticated === false) {
@@ -12,9 +14,11 @@ class Dashboard extends Component {
   }
   render() {
     return (
-      <div className="dashboard-box container">
-        <MatchLegend />
-        <MatchFinals />
+      <div className="dashboard-box">
+        <Container>
+            <MatchLegend />
+            <MatchFinals />
+        </Container>
       </div>
     );
   }

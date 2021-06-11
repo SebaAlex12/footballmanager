@@ -8,6 +8,7 @@ import Spinner from "../common/spinner";
 import { getMatches } from "../../actions/matchActions";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
+import { Container } from "../../themes/basic";
 import Administrators from "../../Admin";
 
 import MatchImportForm from "./MatchImportForm";
@@ -72,7 +73,7 @@ class Matches extends Component {
 
     return (
       <div className="feed matches-box">
-        <div className="container">
+        <Container>
           <div className="row">
             <div className="col-md-12">
               { addMatchButton }
@@ -80,23 +81,9 @@ class Matches extends Component {
               {this.state.showMatchForm && <MatchForm />}
               {this.state.showImportForm && <MatchImportForm />}
               {matchContent}
-              <Pagination
-                className="float-right"
-                aria-label="Page navigation example"
-              >
-                <PaginationItem>
-                  <PaginationLink previous href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink next href="#" />
-                </PaginationItem>
-              </Pagination>
             </div>
           </div>
-        </div>
+        </Container>
       </div>
     );
   }

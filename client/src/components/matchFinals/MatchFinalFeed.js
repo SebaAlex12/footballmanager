@@ -22,7 +22,7 @@ class MatchFinalFeed extends Component {
               <th scope="col" style={{ width: "350px" }}>
                 Zakłady: I połowa II połowa
               </th>
-              <th scope="col">
+              <th scope="col" style={{ width:"150px" }}>
                 <span className="d-block">Punkty za mecz: I połowa II połowa</span>
               </th>
             </tr>

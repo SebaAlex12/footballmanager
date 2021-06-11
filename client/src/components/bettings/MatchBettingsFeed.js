@@ -9,14 +9,26 @@ class MatchBettingsFeed extends Component {
       <MatchBettingItem key={betting._id} betting={betting} match={match} />
     ));
 
+    const isDisabled = match.disabled === 0 ? {color:"rgb(210 65 65)"} : {color:"#17a2b8"};
+
     return (
       <div className="bettings-box">
         <table className="table table-striped table-dark table-responsive mb-0">
           <thead>
+            <tr><th style={isDisabled}>
+              { 
+              match.disabled === 0 ? 
+              "mecz się jeszcze nie rozpoczął dlatego widzisz tylko swoje obstawienie wyniku :(" 
+              : 
+              "mecz się rozpoczął / albo zakończył teraz możesz porównać swoje obstawienie wyniku z ziomkami :)" }</th></tr>
+          </thead>
+        </table>
+        <table className="table table-striped table-dark table-responsive mb-0">
+          <thead>
             <tr>
               <th scope="col">Użytkownik</th>
-              <th scope="col">I połowa I drużyna : II drużyna</th>
-              <th scope="col">II połowa: I drużyna : II drużyna</th>
+              <th scope="col">I połowa: I drużyna II drużyna</th>
+              <th scope="col">II połowa: I drużyna II drużyna</th>
             </tr>
           </thead>
           <tbody>{bettingItems}</tbody>
