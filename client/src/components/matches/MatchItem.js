@@ -12,6 +12,8 @@ import MatchBettingUserForm from "../bettings/MatchBettingUserForm";
 import Moment from "react-moment";
 import MatchCard from "../matches/MatchCard";
 
+import { replaceSpecialChars } from "../common/functions";
+
 class MatchItem extends Component {
   constructor(props) {
     super(props);
@@ -90,10 +92,10 @@ class MatchItem extends Component {
     const { match, counter } = this.props;
     const { user } = this.props.auth;
     const { showMatchBettingUser } = this.state;
-    const firstTeamName = this.state.firstTeamName.split("_")[0];
-    const firstTeamSufix = this.state.firstTeamName.split("_")[1];
-    const secondTeamName = this.state.secondTeamName.split("_")[0];
-    const secondTeamSufix = this.state.secondTeamName.split("_")[1];
+    const firstTeamName = match.firstTeamName;
+    const firstTeamSufix = replaceSpecialChars(match.firstTeamName);
+    const secondTeamName = match.secondTeamName;
+    const secondTeamSufix = replaceSpecialChars(match.secondTeamName);
 
     const formButton = Administrators.includes(user.name) && match.closed === 0 ? (
       <button
@@ -134,6 +136,8 @@ class MatchItem extends Component {
       }
     }
 
+    const matchBettingsFiltered = match.disabled === 1 ? match.bettings : match.bettings.filter(betting => user.id === betting.userId);
+
     return (
       <div
         className={statusClass}
@@ -148,10 +152,11 @@ class MatchItem extends Component {
             className="card-header bg-info text-white"
             style={{ fontWeight: "bold" }}
           >
-            <p className="text-white mb-0 mr-4">
+            <p className="text-white mb-0">
               [{counter}] 
               Termin rozgrywki:{" "}
               <Moment format="YYYY-MM-DD HH:mm">{match.date}</Moment>
+              <span style={{float:"right",display:"block"}}>liczba zakładów: { match.bettings.length }</span>
             </p>
 
             {/* match cards */}
@@ -300,7 +305,7 @@ class MatchItem extends Component {
           </form>
         ) : null}
         {this.state.showMatchBettingFeed ? (
-            <MatchBettingsFeed bettings={match.bettings} match={match} />
+            <MatchBettingsFeed bettings={matchBettingsFiltered} match={match} />
         ) : null}
         <button
             type="button"

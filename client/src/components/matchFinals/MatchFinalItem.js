@@ -3,15 +3,17 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import MatchCard from "../matches/MatchCard";
 
+import { replaceSpecialChars } from "../common/functions";
+
 class MatchFinalItem extends Component {
   render() {
     const { matchFinal, matches } = this.props;
 
     const match = matches.filter(match => match._id === matchFinal.matchId)[0];
-    const firstTeamName = match.firstTeamName.split("_")[0];
-    const firstTeamSufix = match.firstTeamName.split("_")[1];
-    const secondTeamName = match.secondTeamName.split("_")[0];
-    const secondTeamSufix = match.secondTeamName.split("_")[1];
+    const firstTeamName = match.firstTeamName;
+    const firstTeamSufix = replaceSpecialChars(match.firstTeamName);
+    const secondTeamName = match.secondTeamName;
+    const secondTeamSufix = replaceSpecialChars(match.secondTeamName);
     const firstTeamTotalGoals =
       match.firstTeamFirstHalfGoals + match.firstTeamSecondHalfGoals;
     const secondTeamTotalGoals =
@@ -38,7 +40,7 @@ class MatchFinalItem extends Component {
               (matchFinal.firstHalfHitResult === 1 ? " bg-hit-result" : "")
             }
           >
-            <span className="font-weight-bold">I</span>
+            <span className="font-weight-bold">I </span>
             <div className="d-inline ml-2 mr-2">
               <MatchCard
                 name={firstTeamName}
@@ -79,7 +81,7 @@ class MatchFinalItem extends Component {
               />
             </div>
           </div>
-          <div
+          {/* <div
             className={
               "match-final-item-total clearfix border border-primary" +
               (matchFinal.secondHalfHitWinner === 1 ? " bg-hit-winner" : "") +
@@ -102,7 +104,7 @@ class MatchFinalItem extends Component {
                 goals={secondTeamTotalGoals}
               />
             </span>
-          </div>
+          </div> */}
         </td>
         <td>
           <div
@@ -112,7 +114,7 @@ class MatchFinalItem extends Component {
               (matchFinal.firstHalfHitResult === 1 ? " bg-hit-result" : "")
             }
           >
-            <span className="font-weight-bold">I</span>
+            <span className="font-weight-bold">I </span>
             <div className="d-inline ml-2 mr-2">
               <MatchCard
                 name={firstTeamName}
@@ -153,7 +155,7 @@ class MatchFinalItem extends Component {
               />
             </div>
           </div>
-          <div
+          {/* <div
             className={
               "match-final-item-total clearfix border border-primary" +
               (matchFinal.secondHalfHitWinner === 1 ? " bg-hit-winner" : "") +
@@ -176,9 +178,9 @@ class MatchFinalItem extends Component {
                 goals={secondTeamBettingTotalGoals}
               />
             </span>
-          </div>
+          </div> */}
         </td>
-        <td>
+        <td style={{fontWeight:"bold"}}>
           <div
             className={
               "match-final-points clearfix" +
@@ -186,7 +188,7 @@ class MatchFinalItem extends Component {
               (matchFinal.firstHalfHitResult === 1 ? " bg-hit-result" : "")
             }
           >
-            {matchFinal.firstHalfPoints}
+            liczba: {matchFinal.firstHalfPoints}
           </div>
           <div
             className={
@@ -195,10 +197,10 @@ class MatchFinalItem extends Component {
               (matchFinal.secondHalfHitResult === 1 ? " bg-hit-result" : "")
             }
           >
-            {matchFinal.secondHalfPoints}
+            liczba: {matchFinal.secondHalfPoints}
           </div>
           <div className="match-final-item clearfix">
-            {matchFinal.totalPoints}
+            razem: {matchFinal.totalPoints}
           </div>
         </td>
       </tr>

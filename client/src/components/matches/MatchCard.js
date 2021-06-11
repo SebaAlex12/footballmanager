@@ -14,7 +14,7 @@ const MatchCard = ({ name, sufix, goals }) => {
         className="ml-2 mr-2"
         src={`img/flags/${sufix}.jpg`}
         alt=""
-        style={{ width: "20px" }}
+        style={{ width: "26px" }}
       />
       {goals}
     </span>

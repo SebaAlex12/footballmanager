@@ -12,7 +12,7 @@ class Dashboard extends Component {
   }
   render() {
     return (
-      <div className="dashboard-box">
+      <div className="dashboard-box container">
         <MatchLegend />
         <MatchFinals />
       </div>

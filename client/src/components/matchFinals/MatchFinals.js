@@ -6,7 +6,18 @@ import Spinner from "../common/spinner";
 import { getMatchFinals } from "../../actions/matchFinalActions";
 import { getMatches } from "../../actions/matchActions";
 
+import ModalDialog from "../common/ModalDialog/components/ModalDialog";
+import MatchFinalStatistic from "./MatchFinalStatistic";
+
 class MatchFinals extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      showModal: false
+    }
+  }
+
   componentDidMount() {
     if (this.props.auth.isAuthenticated === false) {
       this.props.history.push("/");
@@ -16,8 +27,11 @@ class MatchFinals extends Component {
   }
 
   render() {
+    const { showModal } = this.state;
     const { matchFinals, loading } = this.props.matchFinal;
     const { matches } = this.props.match;
+
+    console.log("state",this.state);
 
     let matchFinalContent;
 
@@ -30,20 +44,30 @@ class MatchFinals extends Component {
     ) {
       matchFinalContent = <Spinner />;
     } else {
-      // console.log(matchFinals);
-      //console.log(matches);
-      // matchFinals.map(matchFinal => {
-      //   console.log(matchFinal.matchId);
-      //   this.props.getCurrentMatch(matchFinal.matchId);
-      //   console.log(this.props.match);
-      // });
-      // let reverse = matchFinals.reverse();
 
       matchFinalContent = (
         <MatchFinalFeed matches={matches} matchFinals={matchFinals} />
       );
     }
-    return <div className="feed match-finals-box">{matchFinalContent}</div>;
+    return (
+      <React.Fragment>
+        { showModal && 
+          (
+            <ModalDialog
+              width="800px"
+              closeHandler={() => { this.setState({ showModal: false })}}
+            >
+                <MatchFinalStatistic />
+            </ModalDialog>
+          )
+        }
+        <button className="btn btn-success mb-2 float-right" onClick={() => { this.setState({ showModal: true }) }}>
+          Ranking zakładów
+        </button>
+        <div className="feed match-finals-box">{matchFinalContent}</div>
+      </React.Fragment>
+
+    )
   }
 }
 
