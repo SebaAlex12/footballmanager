@@ -26,12 +26,11 @@ router.post("/imports", (req, res) => {
       // explode item line
       const elements = item["line"].split(";");
 
-      console.log("elements",elements);
-
+      // there is two hours shifting
       const dateFormat = moment(
         `${elements[0]} ${elements[2]}`,
         "YYYY-MM-DD HH:mm:ss"
-      ).format();
+      ).add(2, 'hours').format();
   
       const newMatch = new Match({
         firstTeamName: elements[1],
@@ -175,10 +174,11 @@ router.post(
       return res.status(400).json(errors);
     }
 
+    // there is two hours shifting
     const dateFormat = moment(
       `${req.body.date} ${req.body.time}`,
       "YYYY-MM-DD HH:mm:ss"
-    ).format();
+    ).add(2, 'hours').format();
 
     const newMatch = new Match({
       user: req.user.id,

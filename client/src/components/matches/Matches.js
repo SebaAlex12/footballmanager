@@ -6,7 +6,6 @@ import MatchForm from "./MatchForm";
 import MatchFeed from "./MatchFeed";
 import Spinner from "../common/spinner";
 import { getMatches } from "../../actions/matchActions";
-import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
 import { Container } from "../../themes/basic";
 import Administrators from "../../Admin";

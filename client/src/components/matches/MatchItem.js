@@ -10,6 +10,8 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import MatchBettingsFeed from "../bettings/MatchBettingsFeed";
 import MatchBettingUserForm from "../bettings/MatchBettingUserForm";
 import Moment from "react-moment";
+import moment from "moment";
+
 import MatchCard from "../matches/MatchCard";
 
 import { replaceSpecialChars } from "../common/functions";
@@ -134,8 +136,8 @@ class MatchItem extends Component {
           matchBettingContent = <MatchBettingUserForm match={match} />
       }
     }
-
-    const matchBettingsFiltered = match.disabled === 1 ? match.bettings : match.bettings.filter(betting => user.id === betting.userId);
+    const matchBettingUser = match.bettings.filter(betting => user.id === betting.userId);
+    const matchBettingsFiltered = match.disabled == 1 ? match.bettings : matchBettingUser;
 
     return (
       <div
@@ -153,8 +155,15 @@ class MatchItem extends Component {
           >
             <p className="text-white mb-0">
               [{counter}] 
-              Termin rozgrywki:{" "}
-              <Moment format="YYYY-MM-DD HH:mm">{match.date}</Moment>
+              Termin rozgrywki: {}
+              { <Moment format="YYYY-MM-DD HH:mm">{moment(match.date).subtract(2, 'hours')}</Moment> }
+              {/* <span>{ match.date }</span> */}
+              { matchBettingUser.length === 1 && ( 
+                <span className="card-betting-info">
+                  obstawiłeś ten mecz !
+                  <img src="img/ball.png" alt="" />
+                </span> 
+              )}
               <span style={{float:"right",display:"block"}}>liczba zakładów: { match.bettings.length }</span>
             </p>
 

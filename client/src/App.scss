@@ -91,3 +91,18 @@
 .bg-hit-winner {
   background-color: rgba(0, 105, 27, 0.1);
 }
+
+.card-betting-info {
+  color: rgb(4, 27, 56);
+  text-transform: uppercase;
+  position: relative;
+  display: flex;
+  justify-content: center !important;
+  margin-top: -20px;
+}
+.card-betting-info img {
+  width: 30px;
+  display: block;
+  position: absolute;
+  top: 30px;
+}

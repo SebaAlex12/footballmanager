@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import TextFieldGroup from "../common/TextFieldGroup";
-import { updateMatchBetting } from "../../actions/matchActions";
+import { updateMatchBetting, updateMatch } from "../../actions/matchActions";
 
 class MatchBettingUserForm extends Component {
   constructor(props) {
@@ -42,16 +43,32 @@ class MatchBettingUserForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    const { updateMatch } = this.props;
+    const { match } = this.props;
 
-    const newBetting = {
-      id: this.state.matchId,
-      firstTeamFirstHalfGoals: this.state.firstTeamFirstHalfGoals,
-      firstTeamSecondHalfGoals: this.state.firstTeamSecondHalfGoals,
-      secondTeamFirstHalfGoals: this.state.secondTeamFirstHalfGoals,
-      secondTeamSecondHalfGoals: this.state.secondTeamSecondHalfGoals
-    };
-    // console.log(newBetting);
-    this.props.updateMatchBetting(newBetting);
+    // if match has began already block it and dont allow to change betting
+    // const currentTime = Date.now() / 1000;
+    const currentTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").format();
+    console.log("match date", match.date);
+    console.log("current time", currentTime);
+    console.log("match",match);
+    if (match.date < currentTime) {
+        alert('Spotkanie się zaczęło albo już zakończyło - jest już za późno na obstawianie tego meczu :(');
+        updateMatch({
+          id:match._id,
+          disabled:1
+        });
+    }else{
+        const newBetting = {
+          id: this.state.matchId,
+          firstTeamFirstHalfGoals: this.state.firstTeamFirstHalfGoals,
+          firstTeamSecondHalfGoals: this.state.firstTeamSecondHalfGoals,
+          secondTeamFirstHalfGoals: this.state.secondTeamFirstHalfGoals,
+          secondTeamSecondHalfGoals: this.state.secondTeamSecondHalfGoals
+        };
+
+        this.props.updateMatchBetting(newBetting);     
+    }
   }
 
   render() {
@@ -115,5 +132,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { updateMatchBetting }
+  { updateMatchBetting, updateMatch }
 )(MatchBettingUserForm);
