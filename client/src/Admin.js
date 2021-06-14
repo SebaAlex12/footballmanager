@@ -1,2 +1,2 @@
-const Administrators = ["Franek","Jakub Kotarski"];
+const Administrators = ["Sebastian Kawka","Jakub Kotarski"];
 export default Administrators;
