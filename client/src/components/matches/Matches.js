@@ -97,9 +97,9 @@ class Matches extends Component {
         <Container>
           <div className="row">
             <div className="col-md-12">
-              { addMatchButton }
-              { importMatchesButton }
-              { generateMatchFinalsButton }
+              {/* { addMatchButton } */}
+              {/* { importMatchesButton } */}
+              {/* { generateMatchFinalsButton } */}
               {this.state.showMatchForm && <MatchForm />}
               {this.state.showImportForm && <MatchImportForm />}
               {matchContent}

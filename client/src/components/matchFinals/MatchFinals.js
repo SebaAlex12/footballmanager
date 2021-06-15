@@ -31,8 +31,6 @@ class MatchFinals extends Component {
     const { matchFinals, loading } = this.props.matchFinal;
     const { matches } = this.props.match;
 
-    console.log("state",this.state);
-
     let matchFinalContent;
 
     if (
@@ -57,7 +55,7 @@ class MatchFinals extends Component {
               width="800px"
               closeHandler={() => { this.setState({ showModal: false })}}
             >
-                <MatchFinalStatistic />
+                <MatchFinalStatistic matchFinals={matchFinals} />
             </ModalDialog>
           )
         }
