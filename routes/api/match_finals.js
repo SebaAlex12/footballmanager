@@ -167,6 +167,7 @@ const generateMatchFinals = async(match) => {
             secondHalfHitWinner: secondHalfHitWinner,
             firstHalfHitResult: firstHalfHitResult,
             secondHalfHitResult: secondHalfHitResult,
+            date: match.date,
             totalPoints: firstHalfPoints + secondHalfPoints
         };
 
