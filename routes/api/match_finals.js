@@ -24,6 +24,30 @@ router.get("/", (req, res) => {
     );
 });
 
+// @route GET api/match_finals/generate
+// @desc get match final
+// @access Public
+router.post("/generate",async(req,res) => {
+  try{
+    const matches = await Match.find({closed:1}, null, {
+        sort: { date: "asc" },
+    });
+    if(matches){
+      matches.forEach( match = async(match) => {
+          try{
+            const data = generateMatchFinals(match);
+            // console.log("generate match finsals data", data);
+          }catch(errors){
+            console.log("add finals errors", errors);
+          }
+      })
+      // console.log("matches",matches);
+    }
+  }catch(errors){
+    console.log("find matches errors",errors);
+  }
+});
+
 // @route POST api/match_finals
 // @desc create point
 // @access Private
@@ -34,151 +58,7 @@ router.post(
     Match.findById(req.body.matchId)
       .then(match => {
         if (match) {
-          //whitch team won first half in match
-
-          let firstHalfWinner = "";
-
-          if (match.firstTeamFirstHalfGoals > match.secondTeamFirstHalfGoals) {
-            firstHalfWinner = "firstTeam";
-          } else if (
-            match.firstTeamFirstHalfGoals < match.secondTeamFirstHalfGoals
-          ) {
-            firstHalfWinner = "secondTeam";
-          } else {
-            firstHalfWinner = "draw";
-          }
-
-          //whitch team won second half in match
-
-          let secondHalfWinner = "";
-
-          if (
-            match.firstTeamSecondHalfGoals > match.secondTeamSecondHalfGoals
-          ) {
-            secondHalfWinner = "firstTeam";
-          } else if (
-            match.firstTeamSecondHalfGoals < match.secondTeamSecondHalfGoals
-          ) {
-            secondHalfWinner = "secondTeam";
-          } else {
-            secondHalfWinner = "draw";
-          }
-
-          //  bettings
-
-          match.bettings.map(betting => {
-            if (betting) {
-              //  set default points
-              const pointsSchema = {
-                FirstHalTargetWinner: 1, // when user quest witch team won first half match
-                FirstHalfTargetResult: 2, // when user quest exactly result for first half match
-                SecondHalfTargetWinner: 2, // when user quest witch team won second half match
-                SecondHalfTargetResult: 3 // when user quest exactly result for second half match
-              };
-
-              //  set default values
-              const matchFinalData = {
-                userId: betting.userId,
-                matchId: match._id,
-                firstHalfPoints: 0,
-                secondHalfPoints: 0,
-                firstHalfHitWinner: 0,
-                secondHalfHitWinner: 0,
-                firstHalfHitResult: 0,
-                secondHalfHitResult: 0,
-                totalPoints: 0
-              };
-
-              //whitch team won first half in betting
-
-              let firstHalfBettingWinner = "";
-
-              if (
-                betting.firstTeamFirstHalfGoals >
-                betting.secondTeamFirstHalfGoals
-              ) {
-                firstHalfBettingWinner = "firstTeam";
-              } else if (
-                betting.firstTeamFirstHalfGoals <
-                betting.secondTeamFirstHalfGoals
-              ) {
-                firstHalfBettingWinner = "secondTeam";
-              } else {
-                firstHalfBettingWinner = "draw";
-              }
-
-              //whitch team won second half in betting
-
-              let secondHalfBettingWinner = "";
-
-              if (
-                betting.firstTeamSecondHalfGoals >
-                betting.secondTeamSecondHalfGoals
-              ) {
-                secondHalfBettingWinner = "firstTeam";
-              } else if (
-                betting.firstTeamSecondHalfGoals <
-                betting.secondTeamSecondHalfGoals
-              ) {
-                secondHalfBettingWinner = "secondTeam";
-              } else {
-                secondHalfBettingWinner = "draw";
-              }
-
-              //compare whose team won first half in match and betting
-
-              // when user quest exactly result for first half match
-              if (
-                match.firstTeamFirstHalfGoals ==
-                  betting.firstTeamFirstHalfGoals &&
-                match.secondTeamFirstHalfGoals ==
-                  betting.secondTeamFirstHalfGoals
-              ) {
-                matchFinalData.firstHalfPoints =
-                  pointsSchema.FirstHalfTargetResult;
-                matchFinalData.firstHalfHitResult = 1;
-              } else if (firstHalfWinner == firstHalfBettingWinner) {
-                // when user quest witch team won first half match
-                matchFinalData.firstHalfPoints =
-                  pointsSchema.FirstHalTargetWinner;
-                matchFinalData.firstHalfHitWinner = 1;
-              } else {
-              }
-
-              // when user quest exactly result for second half match
-              if (
-                match.firstTeamSecondHalfGoals ==
-                  betting.firstTeamSecondHalfGoals &&
-                match.secondTeamSecondHalfGoals ==
-                  betting.secondTeamSecondHalfGoals
-              ) {
-                matchFinalData.secondHalfPoints =
-                  pointsSchema.SecondHalfTargetResult;
-                matchFinalData.secondHalfHitResult = 1;
-              } else if (secondHalfWinner == secondHalfBettingWinner) {
-                // when user quest witch team won second half match
-                matchFinalData.secondHalfPoints =
-                  pointsSchema.SecondHalfTargetWinner;
-                matchFinalData.secondHalfHitWinner = 1;
-              } else {
-              }
-
-              matchFinalData.totalPoints =
-                matchFinalData.firstHalfPoints +
-                matchFinalData.secondHalfPoints;
-
-              const matchFinal = new MatchFinal(matchFinalData);
-              console.log(matchFinalData);
-              matchFinal
-                .save()
-                .then(matchFinal => res.json(matchFinal))
-                .catch(err =>
-                  res
-                    .status(404)
-                    .json({ recordstatus: "metch final record doesnt add" })
-                );
-            }
-          });
+           generateMatchFinals(match);
         }
       })
       .catch(err =>
@@ -186,5 +66,123 @@ router.post(
       );
   }
 );
+
+const generateMatchFinals = async(match) => {
+  try{
+      match.bettings.map( betting = async(betting) => {
+
+        // default values
+        let firstHalfPoints = 0;
+        let secondHalfPoints = 0;
+        let firstHalfHitWinner = 0;
+        let secondHalfHitWinner = 0;
+        let firstHalfHitResult = 0;
+        let secondHalfHitResult = 0;
+
+        // first and second half match winner
+        let firstHalfWinner = {
+          firstTeam: 0,
+          secondTeam: 0
+        };
+
+        let secondHalfWinner = {
+          firstTeam: 0,
+          secondTeam: 0
+        };
+
+        // first and second half betting winner
+        let firstHalfBettingWinner = {
+          firstTeam: 0,
+          secondTeam: 0
+        };
+
+        let secondHalfBettingWinner = {
+          firstTeam:0,
+          second:0
+        }
+
+        // who won first and who won second half in match
+        if(match.firstTeamFirstHalfGoals > match.secondTeamFirstHalfGoals){
+            firstHalfWinner.firstTeam = 1;
+        }
+
+        if(match.firstTeamFirstHalfGoals < match.secondTeamFirstHalfGoals){
+            firstHalfWinner.secondTeam = 1;
+        }
+
+        if(match.firstTeamSecondHalfGoals > match.secondTeamSecondHalfGoals){
+          secondHalfWinner.firstTeam = 1;
+        }
+
+        if(match.firstTeamSecondHalfGoals < match.secondTeamSecondHalfGoals){
+            secondHalfWinner.secondTeam = 1;
+        }  
+        
+        // who won first and who won second half in betting
+                if(betting.firstTeamFirstHalfGoals > betting.secondTeamFirstHalfGoals){
+                  firstHalfBettingWinner.firstTeam = 1;
+              }
+      
+              if(betting.secondTeamFirstHalfGoals < betting.secondTeamFirstHalfGoals){
+                  firstHalfBettingWinner.secondTeam = 1;
+              }
+      
+              if(betting.firstTeamSecondHalfGoals > betting.secondTeamSecondHalfGoals){
+                secondHalfBettingWinner.firstTeam = 1;
+              }
+      
+              if(betting.firstTeamSecondHalfGoals < betting.secondTeamSecondHalfGoals){
+                  secondHalfBettingWinner.secondTeam = 1;
+              }  
+
+        // compare match and betting first half if true got one point
+        if(firstHalfWinner.firstTeam == firstHalfBettingWinner.firstTeam && firstHalfWinner.secondTeam == firstHalfBettingWinner.secondTeam){
+            firstHalfHitWinner = 1;
+            firstHalfPoints = 1;
+        }
+        // compare match and betting second half if true got two points
+        if(secondHalfWinner.firstTeam == secondHalfBettingWinner.firstTeam && secondHalfWinner.secondTeam == secondHalfBettingWinner.secondTeam){
+            secondHalfHitWinner = 1;
+            secondHalfPoints = 2;
+        }
+
+        // if first half hit the some result you got two points
+        if(match.firstTeamFirstHalfGoals == betting.firstTeamFirstHalfGoals && match.secondTeamFirstHalfGoals == betting.secondTeamFirstHalfGoals){
+          firstHalfHitResult = 1;
+          firstHalfPoints = 2; 
+        }
+
+        // if second half hit the some result you got three points
+        if(match.firstTeamSecondHalfGoals == betting.firstTeamSecondHalfGoals && match.secondTeamSecondHalfGoals == betting.secondTeamSecondHalfGoals){
+          secondHalfHitResult = 1;
+          secondHalfPoints = 3; 
+        }        
+
+        const data = {
+            userId: betting.userId,
+            matchId: match._id,
+            firstHalfPoints: firstHalfPoints,
+            secondHalfPoints: secondHalfPoints,
+            firstHalfHitWinner: firstHalfHitWinner,
+            secondHalfHitWinner: secondHalfHitWinner,
+            firstHalfHitResult: firstHalfHitResult,
+            secondHalfHitResult: secondHalfHitResult,
+            totalPoints: firstHalfPoints + secondHalfPoints
+        };
+
+        const matchFinal = new MatchFinal(data);
+              try{
+                const response = await matchFinal.save();
+                if(response){
+                    console.log("betting has been added");
+                }
+              }catch(errors){
+                  console.log("betting errors",errors);
+              }
+      });
+  }catch(errors){
+      console.log("generate match finals errors",errors);
+  }
+}
 
 module.exports = router;
