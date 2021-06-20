@@ -144,4 +144,20 @@ router.get(
   }
 );
 
+// @route GET
+// @desc get users
+// @access Public
+router.get("/", async(req, res) => {
+    try{
+      const users = await User.find({}, null, {
+          sort: { date: "asc" },
+      });
+      if(users){
+        return res.json(users);
+      }
+    }catch(err){
+      return res.status(404).json({ nousersfound: `No users found` });
+    }
+  }
+);
 module.exports = router;

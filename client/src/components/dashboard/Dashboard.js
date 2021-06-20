@@ -5,12 +5,15 @@ import MatchFinals from "../matchFinals/MatchFinals";
 import MatchLegend from "../matches/MatchLegend";
 
 import { Container } from "../../themes/basic";
+import { getUsers } from "../../actions/userActions";
 
 class Dashboard extends Component {
   componentDidMount() {
+    const { getUsers } = this.props;
     if (this.props.auth.isAuthenticated === false) {
       this.props.history.push("/");
     }
+    getUsers();
   }
   render() {
     return (
@@ -32,4 +35,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, { getUsers })(Dashboard);
