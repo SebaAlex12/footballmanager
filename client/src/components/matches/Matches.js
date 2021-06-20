@@ -19,7 +19,6 @@ class Matches extends Component {
     super(props);
     
     this.state = {
-      matches: [],
       matchesTypes:{
           toPlay: true,
           inProgress: false,
@@ -37,7 +36,6 @@ class Matches extends Component {
     const { matches } = this.props.match;
     if(matches.length > 0){
       this.setState({
-        matches: matches,
         filteredMatches: matches
       })
     }
@@ -61,11 +59,10 @@ class Matches extends Component {
 
   render() {
     let { filteredMatches, matchesTypes } = this.state;
-    const { matches } = this.state;
-    const { loading } = this.props.match;
+    const { loading, matches } = this.props.match;
     const { user } = this.props.auth;
 
-    // console.log("state",this.state);
+    console.log("state",this.state);
 
     filteredMatches = matches.filter(match => {
       const currentTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").format();
