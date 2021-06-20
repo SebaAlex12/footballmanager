@@ -5,6 +5,12 @@ const MatchFinalStatistic = () => {
     const finalMatches = useSelector(state => state.matchFinal.matchFinals);
     let users = useSelector(state => state.user.users);
 
+    // reset users points
+    users = users.map(user => {
+        user.totalPoints = 0;
+        return user;
+    });
+
     // count points for matches
     if(finalMatches.length > 0){
         finalMatches.forEach(match => {

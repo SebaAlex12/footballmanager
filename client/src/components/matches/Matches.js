@@ -62,7 +62,7 @@ class Matches extends Component {
     const { loading, matches } = this.props.match;
     const { user } = this.props.auth;
 
-    console.log("state",this.state);
+    // console.log("state",this.state);
 
     filteredMatches = matches.filter(match => {
       const currentTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").format();
