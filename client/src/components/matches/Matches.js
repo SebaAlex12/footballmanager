@@ -2,32 +2,46 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from "axios";
+import moment from "moment";
 
 import MatchForm from "./MatchForm";
 import MatchFeed from "./MatchFeed";
 import Spinner from "../common/spinner";
-import { getMatches } from "../../actions/matchActions";
 
 import { Container } from "../../themes/basic";
 import Administrators from "../../Admin";
 
 import MatchImportForm from "./MatchImportForm";
+import MatchesFilter from "./MatchesFilter";
 
 class Matches extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
+      matches: [],
+      matchesTypes:{
+          toPlay: true,
+          inProgress: false,
+          finished: false
+      },
+      filteredMatches: [],
       showMatchForm: false,
       showImportForm: false
     };
   }
-  componentDidMount() {
+  componentDidMount = async() => {
     if (this.props.auth.isAuthenticated === false) {
       this.props.history.push("/");
     }
-    this.props.getMatches();
+    const { matches } = this.props.match;
+    if(matches.length > 0){
+      this.setState({
+        matches: matches,
+        filteredMatches: matches
+      })
+    }
   }
-
   generateMatchFinals = async() => {
     try{
       const response = await axios.post("api/match_finals/generate");
@@ -39,19 +53,53 @@ class Matches extends Component {
     }
   }
 
+  matchesTypesAction = (matchesTypes) => {
+    this.setState({
+      matchesTypes: matchesTypes
+    })
+  }
+
   render() {
-    const { matches, loading } = this.props.match;
+    let { filteredMatches, matchesTypes } = this.state;
+    const { matches } = this.state;
+    const { loading } = this.props.match;
     const { user } = this.props.auth;
+
+    // console.log("state",this.state);
+
+    filteredMatches = matches.filter(match => {
+      const currentTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").format();
+      const shiftTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").add(110, 'minutes').format();
+
+      // console.log("currentTime", currentTime);
+      // console.log("shift time",shiftTime);
+      // console.log("match date", match.date);
+      // console.log("diff",currentTime.diff(match.date, 'minutes'));
+      // show matches not yet started
+      if(matchesTypes.toPlay && ( match.date > currentTime )){
+        return match;
+      } 
+      // show matches in progress
+      if(matchesTypes.inProgress && ( match.date >= shiftTime)){
+        return match;
+      }
+      // show matches finished
+      if(matchesTypes.finished  && ( match.date < shiftTime)){
+        return match;
+      }
+    });
+
+    // console.log("filteredMatches",filteredMatches);
 
     let matchContent;
 
-    if (matches === null || loading || matches.length === 0) {
+    if (filteredMatches === null || loading || filteredMatches.length === 0) {
       matchContent = <Spinner />;
     } else {
       matchContent = (
         <React.Fragment>
-            <div className="counter">Liczba meczów: {matches.length}</div>
-            <MatchFeed matches={matches} />
+            <div className="counter">Liczba meczów: {filteredMatches.length}</div>
+            <MatchFeed matches={filteredMatches} />
         </React.Fragment>
       )
     }
@@ -97,9 +145,21 @@ class Matches extends Component {
         <Container>
           <div className="row">
             <div className="col-md-12">
+              <button className="btn btn-green" onClick={() => {
+                    const { matches } = this.props.match;
+                    if(matches.length > 0){
+                      this.setState({
+                        matches: matches,
+                        filteredMatches: matches
+                      })
+                    }
+              }}>Odśwież</button>
               {/* { addMatchButton } */}
               {/* { importMatchesButton } */}
               {/* { generateMatchFinalsButton } */}
+              <div className="filter-box">
+                  <MatchesFilter matchesTypesActionHandler={this.matchesTypesAction} matchesTypes={matchesTypes} />
+              </div>
               {this.state.showMatchForm && <MatchForm />}
               {this.state.showImportForm && <MatchImportForm />}
               {matchContent}
@@ -113,7 +173,6 @@ class Matches extends Component {
 
 Matches.propTypes = {
   match: PropTypes.object.isRequired,
-  getMatches: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -123,6 +182,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps,
-  { getMatches }
+  mapStateToProps
 )(Matches);

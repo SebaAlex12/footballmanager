@@ -16,6 +16,8 @@ import Register from "./components/auth/Register";
 import Teams from "./components/teams/Teams";
 import Matches from "./components/matches/Matches";
 
+import { getMatches } from "./actions/matchActions";
+
 import { Container } from "./themes/basic";
 
 import "./App.scss";
@@ -35,6 +37,7 @@ if (localStorage.jwtToken) {
     store.dispatch(logoutUser());
     window.location.href = "/login";
   }
+  store.dispatch(getMatches());
 }
 
 class App extends Component {

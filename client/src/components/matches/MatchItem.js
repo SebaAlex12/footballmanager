@@ -230,7 +230,7 @@ class MatchItem extends Component {
               </div>
               <div className="col-md-2">
                 <div className="lead float-left">
-                  Liczba bramek I połowa:
+                  Bramki do przerwy:
                   <TextFieldGroup
                     name="firstTeamFirstHalfGoals"
                     value={this.state.firstTeamFirstHalfGoals}
@@ -238,7 +238,7 @@ class MatchItem extends Component {
                   />
                 </div>
                 <div className="lead float-right">
-                  Liczba bramek II połowa:
+                  Wynik końcowy:
                   <TextFieldGroup
                     name="firstTeamSecondHalfGoals"
                     value={this.state.firstTeamSecondHalfGoals}
@@ -277,7 +277,7 @@ class MatchItem extends Component {
               </div>
               <div className="col-md-2">
                 <div className="lead float-left">
-                  Liczba bramek I połowa:
+                  Bramki do przerwy:
                   <TextFieldGroup
                     name="secondTeamFirstHalfGoals"
                     value={this.state.secondTeamFirstHalfGoals}
@@ -285,7 +285,7 @@ class MatchItem extends Component {
                   />
                 </div>
                 <div className="lead float-right">
-                  Liczba bramek II połowa:
+                  Wynik końcowy:
                   <TextFieldGroup
                     name="secondTeamSecondHalfGoals"
                     value={this.state.secondTeamSecondHalfGoals}
