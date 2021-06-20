@@ -33,6 +33,88 @@ class MatchFinalItem extends Component {
       <tr>
         <td>{betting.userName}</td>
         <td>
+        <div
+            className={
+              "match-final-item clearfix" +
+              (matchFinal.firstHalfHitWinner === 1 ? " bg-hit-winner" : "") +
+              (matchFinal.firstHalfHitResult === 1 ? " bg-hit-result" : "")
+            }
+          >
+            <span className="font-weight-bold">I </span>
+            <div className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={firstTeamName}
+                sufix={firstTeamSufix}
+                goals={betting.firstTeamFirstHalfGoals}
+              />
+            </div>
+            <span>:</span>
+            <div className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={secondTeamName}
+                sufix={secondTeamSufix}
+                goals={betting.secondTeamFirstHalfGoals}
+              />
+            </div>
+          </div>
+          <div
+            className={
+              "match-final-item clearfix" +
+              (matchFinal.secondHalfHitWinner === 1 ? " bg-hit-winner" : "") +
+              (matchFinal.secondHalfHitResult === 1 ? " bg-hit-result" : "")
+            }
+          >
+            <span className="font-weight-bold">II</span>
+            <div className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={firstTeamName}
+                sufix={firstTeamSufix}
+                goals={betting.firstTeamSecondHalfGoals}
+              />
+            </div>
+            <span>:</span>
+            <div className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={secondTeamName}
+                sufix={secondTeamSufix}
+                goals={betting.secondTeamSecondHalfGoals}
+              />
+            </div>
+          </div>
+          {/* <div
+            className={
+              "match-final-item-total clearfix border border-primary" +
+              (matchFinal.secondHalfHitWinner === 1 ? " bg-hit-winner" : "") +
+              (matchFinal.secondHalfHitResult === 1 ? " bg-hit-result" : "")
+            }
+          >
+            <span className="font-weight-bold">W</span>
+            <span className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={firstTeamName}
+                sufix={firstTeamSufix}
+                goals={firstTeamTotalGoals}
+              />
+            </span>
+            <span>:</span>
+            <span className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={secondTeamName}
+                sufix={secondTeamSufix}
+                goals={secondTeamTotalGoals}
+              />
+            </span>
+          </div> */}
+        </td>
+        <td>
+          
+
+
+
+
+
+
+
           <div
             className={
               "match-final-item clearfix" +
@@ -78,80 +160,6 @@ class MatchFinalItem extends Component {
                 name={secondTeamName}
                 sufix={secondTeamSufix}
                 goals={match.secondTeamSecondHalfGoals}
-              />
-            </div>
-          </div>
-          {/* <div
-            className={
-              "match-final-item-total clearfix border border-primary" +
-              (matchFinal.secondHalfHitWinner === 1 ? " bg-hit-winner" : "") +
-              (matchFinal.secondHalfHitResult === 1 ? " bg-hit-result" : "")
-            }
-          >
-            <span className="font-weight-bold">W</span>
-            <span className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={firstTeamName}
-                sufix={firstTeamSufix}
-                goals={firstTeamTotalGoals}
-              />
-            </span>
-            <span>:</span>
-            <span className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={secondTeamName}
-                sufix={secondTeamSufix}
-                goals={secondTeamTotalGoals}
-              />
-            </span>
-          </div> */}
-        </td>
-        <td>
-          <div
-            className={
-              "match-final-item clearfix" +
-              (matchFinal.firstHalfHitWinner === 1 ? " bg-hit-winner" : "") +
-              (matchFinal.firstHalfHitResult === 1 ? " bg-hit-result" : "")
-            }
-          >
-            <span className="font-weight-bold">I </span>
-            <div className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={firstTeamName}
-                sufix={firstTeamSufix}
-                goals={betting.firstTeamFirstHalfGoals}
-              />
-            </div>
-            <span>:</span>
-            <div className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={secondTeamName}
-                sufix={secondTeamSufix}
-                goals={betting.secondTeamFirstHalfGoals}
-              />
-            </div>
-          </div>
-          <div
-            className={
-              "match-final-item clearfix" +
-              (matchFinal.secondHalfHitWinner === 1 ? " bg-hit-winner" : "") +
-              (matchFinal.secondHalfHitResult === 1 ? " bg-hit-result" : "")
-            }
-          >
-            <span className="font-weight-bold">II</span>
-            <div className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={firstTeamName}
-                sufix={firstTeamSufix}
-                goals={betting.firstTeamSecondHalfGoals}
-              />
-            </div>
-            <span>:</span>
-            <div className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={secondTeamName}
-                sufix={secondTeamSufix}
-                goals={betting.secondTeamSecondHalfGoals}
               />
             </div>
           </div>

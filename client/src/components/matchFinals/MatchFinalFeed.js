@@ -17,10 +17,10 @@ class MatchFinalFeed extends Component {
             <tr>
               <th scope="col" style={{ width: "200px" }}>Użytkownik</th>
               <th scope="col" style={{ width: "350px" }}>
-                Wynik spotkania: I połowa II połowa
+                Zakłady: I połowa II połowa
               </th>
               <th scope="col" style={{ width: "350px" }}>
-                Zakłady: I połowa II połowa
+                Wynik spotkania: I połowa II połowa
               </th>
               <th scope="col" style={{ width:"150px" }}>
                 <span className="d-block">Punkty za mecz: I połowa II połowa</span>

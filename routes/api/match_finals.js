@@ -98,7 +98,7 @@ const generateMatchFinals = async(match) => {
 
         let secondHalfBettingWinner = {
           firstTeam:0,
-          second:0
+          secondTeam:0
         }
 
         // who won first and who won second half in match
