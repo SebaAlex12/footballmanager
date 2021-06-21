@@ -33,15 +33,17 @@ router.post("/generate",async(req,res) => {
         sort: { date: "asc" },
     });
     if(matches){
-      matches.forEach( match = async(match) => {
-          try{
-            const data = generateMatchFinals(match);
-            // console.log("generate match finsals data", data);
-          }catch(errors){
-            console.log("add finals errors", errors);
-          }
-      })
-      // console.log("matches",matches);
+      // truncate collection matchfinals
+      const response = await MatchFinal.remove({});
+      if(response){
+        matches.forEach( match = async(match) => {
+            try{
+              const data = generateMatchFinals(match);
+            }catch(errors){
+              console.log("add finals errors", errors);
+            }
+        })
+      }
     }
   }catch(errors){
     console.log("find matches errors",errors);

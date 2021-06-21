@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from "axios";
 import moment from "moment";
+import Styled from "styled-components";
 
 import MatchForm from "./MatchForm";
 import MatchFeed from "./MatchFeed";
@@ -101,7 +102,7 @@ class Matches extends Component {
       )
     }
 
-    const addMatchButton = Administrators.includes(user.name) ? (
+    const addMatchButton = Administrators.includes(user.email) ? (
         <button
         type="button"
         className="btn btn-success mb-2"
@@ -115,7 +116,7 @@ class Matches extends Component {
       </button>
     ) : null;
 
-    const importMatchesButton = Administrators.includes(user.name) ? (
+    const importMatchesButton = Administrators.includes(user.email) ? (
         <button
           type="button"
           className="btn btn-success mb-2"
@@ -127,7 +128,7 @@ class Matches extends Component {
         </button>
     ) : null;
 
-    const generateMatchFinalsButton = Administrators.includes(user.name) && (
+    const generateMatchFinalsButton = Administrators.includes(user.email) && (
       <button 
         type="button"
         className="btn btn-success mb-2"
@@ -142,23 +143,27 @@ class Matches extends Component {
         <Container>
           <div className="row">
             <div className="col-md-12">
-              <button className="btn btn-green" onClick={() => {
-                    const { matches } = this.props.match;
-                    if(matches.length > 0){
-                      this.setState({
-                        matches: matches,
-                        filteredMatches: matches
-                      })
-                    }
-              }}>Odśwież</button>
-              {/* { addMatchButton } */}
-              {/* { importMatchesButton } */}
-              {/* { generateMatchFinalsButton } */}
-              <div className="filter-box">
-                  <MatchesFilter matchesTypesActionHandler={this.matchesTypesAction} matchesTypes={matchesTypes} />
-              </div>
+              <AdminNavigatorBox>
+                  { addMatchButton }
+                  {/* { importMatchesButton } */}
+                  { generateMatchFinalsButton }
+              </AdminNavigatorBox>
               {this.state.showMatchForm && <MatchForm />}
               {this.state.showImportForm && <MatchImportForm />}
+              <NavigatorBox>
+                  <button className="btn btn-green" onClick={() => {
+                        const { matches } = this.props.match;
+                        if(matches.length > 0){
+                          this.setState({
+                            matches: matches,
+                            filteredMatches: matches
+                          })
+                        }
+                  }}>Odśwież</button>
+                  <div className="filter-box">
+                      <MatchesFilter matchesTypesActionHandler={this.matchesTypesAction} matchesTypes={matchesTypes} />
+                  </div>
+              </NavigatorBox>
               {matchContent}
             </div>
           </div>
@@ -181,3 +186,12 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps
 )(Matches);
+
+const AdminNavigatorBox = Styled.nav`
+  display:flex;
+`;
+
+const NavigatorBox = Styled.nav`
+  display:flex;
+  justify-content: flex-end;
+`;
