@@ -107,14 +107,6 @@ class MatchFinalItem extends Component {
           </div> */}
         </td>
         <td>
-          
-
-
-
-
-
-
-
           <div
             className={
               "match-final-item clearfix" +

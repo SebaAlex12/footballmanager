@@ -52,7 +52,7 @@ class MatchFinals extends Component {
         { showModal && 
           (
             <ModalDialog
-              width="800px"
+              width="1400px"
               closeHandler={() => { this.setState({ showModal: false })}}
             >
                 <MatchFinalStatistic matchFinals={matchFinals} />
