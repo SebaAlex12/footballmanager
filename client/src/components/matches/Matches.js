@@ -22,7 +22,7 @@ class Matches extends Component {
     this.state = {
       matchesTypes:{
           toPlay: true,
-          inProgress: false,
+          inProgress: true,
           finished: false
       },
       filteredMatches: [],

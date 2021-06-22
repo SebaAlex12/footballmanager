@@ -98,7 +98,7 @@ class MatchItem extends Component {
     const secondTeamName = match.secondTeamName;
     const secondTeamSufix = replaceSpecialChars(match.secondTeamName);
 
-    const formButton = Administrators.includes(user.name) && match.closed === 0 ? (
+    const formButton = Administrators.includes(user.email) && match.closed === 0 ? (
       <button
               className="btn btn-light float-right"
               style={{ cursor: "pointer", fontSize: "20px" }}
@@ -112,7 +112,7 @@ class MatchItem extends Component {
             </button>
     ) : null;
 
-    const switchDisableButton = Administrators.includes(user.name) && match.closed === 0 ? (
+    const switchDisableButton = Administrators.includes(user.mail) && match.closed === 0 ? (
       <button
               className={`btn float-right ${match.disabled === 1 ? "btn-danger" : "btn-secondary"}`}
               style={{ cursor: "pointer", fontSize: "20px" }}
