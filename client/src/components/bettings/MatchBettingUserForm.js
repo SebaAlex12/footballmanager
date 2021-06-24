@@ -18,19 +18,25 @@ class MatchBettingUserForm extends Component {
 
     this.state = {
       matchId: props.match._id,
-      bettingId: betting[0] ? betting[0]._id : "",
+      bettingId: betting[0] ? betting[0]._id : null,
       firstTeamFirstHalfGoals: betting[0]
         ? betting[0].firstTeamFirstHalfGoals
-        : "",
+        : null,
       firstTeamSecondHalfGoals: betting[0]
         ? betting[0].firstTeamSecondHalfGoals
-        : "",
+        : null,
+      firstTeamOvertimeGoals: betting[0]
+        ? betting[0].firstTeamOvertimeGoals
+        : null,
       secondTeamFirstHalfGoals: betting[0]
         ? betting[0].secondTeamFirstHalfGoals
-        : "",
+        : null,
       secondTeamSecondHalfGoals: betting[0]
         ? betting[0].secondTeamSecondHalfGoals
-        : "",
+        : null,
+      secondTeamOvertimeGoals: betting[0]
+        ? betting[0].secondTeamOvertimeGoals
+        : null,
       errors: {}
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -38,7 +44,7 @@ class MatchBettingUserForm extends Component {
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: parseInt(e.target.value) });
   }
 
   onSubmit(e) {
@@ -63,16 +69,43 @@ class MatchBettingUserForm extends Component {
           id: this.state.matchId,
           firstTeamFirstHalfGoals: this.state.firstTeamFirstHalfGoals,
           firstTeamSecondHalfGoals: this.state.firstTeamSecondHalfGoals,
+          firstTeamOvertimeGoals: this.state.firstTeamSecondHalfGoals == this.state.secondTeamSecondHalfGoals ? this.state.firstTeamOvertimeGoals : null,
           secondTeamFirstHalfGoals: this.state.secondTeamFirstHalfGoals,
-          secondTeamSecondHalfGoals: this.state.secondTeamSecondHalfGoals
+          secondTeamSecondHalfGoals: this.state.secondTeamSecondHalfGoals,
+          secondTeamOvertimeGoals: this.state.firstTeamSecondHalfGoals == this.state.secondTeamSecondHalfGoals ? this.state.secondTeamOvertimeGoals : null
         };
+
+       console.log("newBetting",newBetting);
 
         this.props.updateMatchBetting(newBetting);     
     }
   }
 
   render() {
-    const { errors } = this.state;
+    const { firstTeamSecondHalfGoals, secondTeamSecondHalfGoals, errors } = this.state;
+
+    let overtimeContent = null;
+    if(firstTeamSecondHalfGoals === secondTeamSecondHalfGoals && firstTeamSecondHalfGoals != "" && secondTeamSecondHalfGoals != ""){
+      overtimeContent = (
+        <div className="form-group">
+                <label htmlFor="secondHalf">Dogrywka</label>
+                <TextFieldGroup
+                  placeholder="I drużyna"
+                  name="firstTeamOvertimeGoals"
+                  value={this.state.firstTeamOvertimeGoals}
+                  onChange={this.onChange}
+                  error={errors.firstTeamOvertimeGoals}
+                />
+                <TextFieldGroup
+                  placeholder="II drużyna"
+                  name="secondTeamOvertimeGoals"
+                  value={this.state.secondTeamOvertimeGoals}
+                  onChange={this.onChange}
+                  error={errors.secondTeamOvertimeGoals}
+                />
+        </div>
+      );
+    }
 
     return (
       <div className="post-form mb-3 mt-3 betting-user-fom-box">
@@ -111,6 +144,7 @@ class MatchBettingUserForm extends Component {
               error={errors.secondTeamSecondHalfGoals}
             />
           </div>
+          { overtimeContent }
           <button type="submit" className="btn ml-3 btn-dark float-right">
             Zapisz
           </button>

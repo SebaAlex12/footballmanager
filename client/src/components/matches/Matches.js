@@ -64,30 +64,29 @@ class Matches extends Component {
     const { user } = this.props.auth;
 
     // console.log("state",this.state);
-
-    filteredMatches = matches.filter(match => {
-      const currentTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").format();
-      const shiftTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").add(110, 'minutes').format();
-
-      // console.log("currentTime", currentTime);
-      // console.log("shift time",shiftTime);
-      // console.log("match date", match.date);
-      // console.log("diff",currentTime.diff(match.date, 'minutes'));
-      // show matches not yet started
-      if(matchesTypes.toPlay && ( match.date > currentTime )){
-        return match;
-      } 
-      // show matches in progress
-      if(matchesTypes.inProgress && ( match.date >= shiftTime)){
-        return match;
-      }
-      // show matches finished
-      if(matchesTypes.finished  && ( match.date < shiftTime)){
-        return match;
-      }
-    });
-
-    // console.log("filteredMatches",filteredMatches);
+    if(matches && matches.length > 0){
+      filteredMatches = matches.filter(match => {
+        const currentTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").format();
+        const shiftTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").add(110, 'minutes').format();
+  
+        // console.log("currentTime", currentTime);
+        // console.log("shift time",shiftTime);
+        // console.log("match date", match.date);
+        // console.log("diff",currentTime.diff(match.date, 'minutes'));
+        // show matches not yet started
+        if(matchesTypes.toPlay && ( match.date > currentTime )){
+          return match;
+        } 
+        // show matches in progress
+        if(matchesTypes.inProgress && ( match.date >= shiftTime)){
+          return match;
+        }
+        // show matches finished
+        if(matchesTypes.finished  && ( match.date < shiftTime)){
+          return match;
+        }
+      });
+    }
 
     let matchContent;
 

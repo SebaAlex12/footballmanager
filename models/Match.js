@@ -37,10 +37,16 @@ const MatchSchema = new Schema({
       firstTeamSecondHalfGoals: {
         type: Number
       },
+      firstTeamOvertimeGoals: {
+        type: Number
+      },
       secondTeamFirstHalfGoals: {
         type: Number
       },
       secondTeamSecondHalfGoals: {
+        type: Number
+      },
+      secondTeamOvertimeGoals: {
         type: Number
       },
       date: {

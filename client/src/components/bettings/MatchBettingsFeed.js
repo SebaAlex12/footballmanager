@@ -29,6 +29,7 @@ class MatchBettingsFeed extends Component {
               <th scope="col">Użytkownik</th>
               <th scope="col">I połowa: I drużyna II drużyna</th>
               <th scope="col">II połowa: I drużyna II drużyna</th>
+              <th scope="col">Dogrywka</th>
             </tr>
           </thead>
           <tbody>{bettingItems}</tbody>

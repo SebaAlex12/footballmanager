@@ -118,6 +118,10 @@ router.post(
           req.body.firstTeamSecondHalfGoals === ""
             ? 0
             : req.body.firstTeamSecondHalfGoals;
+        newBetting.firstTeamOvertimeGoals =
+            req.body.firstTeamOvertimeGoals === ""
+              ? 0
+              : req.body.firstTeamOvertimeGoals;
         newBetting.secondTeamFirstHalfGoals =
           req.body.secondTeamFirstHalfGoals === ""
             ? 0
@@ -126,6 +130,10 @@ router.post(
           req.body.secondTeamSecondHalfGoals === ""
             ? 0
             : req.body.secondTeamSecondHalfGoals;
+        newBetting.secondTeamOvertimeGoals =
+            req.body.secondTeamOvertimeGoals === ""
+              ? 0
+              : req.body.secondTeamOvertimeGoals;
 
         let UserBettingExists = false;
 
@@ -143,10 +151,14 @@ router.post(
               newBetting.firstTeamFirstHalfGoals;
             betting.firstTeamSecondHalfGoals =
               newBetting.firstTeamSecondHalfGoals;
+            betting.firstTeamOvertimeGoals =
+              newBetting.firstTeamOvertimeGoals;
             betting.secondTeamFirstHalfGoals =
               newBetting.secondTeamFirstHalfGoals;
             betting.secondTeamSecondHalfGoals =
               newBetting.secondTeamSecondHalfGoals;
+            betting.secondTeamOvertimeGoals =
+              newBetting.secondTeamOvertimeGoals;
           }
         });
 
