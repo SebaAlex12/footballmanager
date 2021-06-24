@@ -34,8 +34,6 @@ const MatchFinalStatistic = () => {
 
     const bestUser = users.reduce((prev, current) => (prev.totalPoints > current.totalPoints) ? prev : current);
 
-    console.log("bestUser",bestUser);
-
     let counter = 1;
     const usersContent = users.map(user=> (
         <tr key={ user._id }>

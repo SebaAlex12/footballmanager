@@ -21,7 +21,7 @@ router.get("/test", (req, res) => res.json({ msg: "matches works" }));
 router.post("/imports", (req, res) => {
 
     const matches = JSON.parse(req.body.imports);
-    matches.forEach( item = (item) => {
+    matches.forEach( item = async(item) => {
 
       // explode item line
       const elements = item["line"].split(";");
@@ -44,7 +44,7 @@ router.post("/imports", (req, res) => {
         closed: 0
       });
       console.log(newMatch);
-      newMatch
+      const response = await newMatch
         .save()
         .then(match => res.json(match))
         .catch(err => res.status(400).json({ matchnotadd: "matchnotadd" }));

@@ -145,7 +145,7 @@ class Matches extends Component {
             <div className="col-md-12">
               <AdminNavigatorBox>
                   { addMatchButton }
-                  {/* { importMatchesButton } */}
+                  { importMatchesButton }
                   { generateMatchFinalsButton }
               </AdminNavigatorBox>
               {this.state.showMatchForm && <MatchForm />}
