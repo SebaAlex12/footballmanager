@@ -45,8 +45,12 @@ const MatchLegend = () => {
           </tbody>
         </table>
       </Points>
+      <Info>
+        <div>Tutaj jest info o rozgrywce</div>
+        <div>za dogrywke podlicze punkty pozniej ziomy obstawiajcie</div>
+      </Info>
     </LegendBox>
-  );
+  )
 };
 
 export default MatchLegend;
@@ -69,6 +73,10 @@ const Legend = styled.div`
       }
     }
   }
+`;
+
+const Info = styled.div`
+    color:red;
 `;
 
 const Points = styled.div`
