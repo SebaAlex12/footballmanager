@@ -85,7 +85,7 @@ class MatchBettingUserForm extends Component {
     const { firstTeamSecondHalfGoals, secondTeamSecondHalfGoals, errors } = this.state;
 
     let overtimeContent = null;
-    if(firstTeamSecondHalfGoals === secondTeamSecondHalfGoals && firstTeamSecondHalfGoals != "" && secondTeamSecondHalfGoals != ""){
+    if(firstTeamSecondHalfGoals === secondTeamSecondHalfGoals){
       overtimeContent = (
         <div className="form-group">
                 <label htmlFor="secondHalf">Dogrywka</label>

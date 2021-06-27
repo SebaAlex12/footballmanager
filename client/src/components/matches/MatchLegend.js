@@ -37,6 +37,11 @@ const MatchLegend = () => {
               <td>2 pkt.</td>
               <td>3 pkt.</td>
             </tr>
+            <tr>
+              <th>Dogrywka</th>
+              <td>1 pkt.</td>
+              <td>2 pkt.</td>
+            </tr>
           </tbody>
         </table>
       </Points>
