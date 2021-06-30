@@ -37,8 +37,10 @@ router.post("/imports", (req, res) => {
         secondTeamName: elements[3],
         firstTeamFirstHalfGoals:0,
         firstTeamSecondHalfGoals:0,
+        firstTeamOvertimeGoals:0,
         secondTeamFirstHalfGoals:0,
         secondTeamSecondHalfGoals:0,
+        secondTeamOvertimeGoals:0,
         date: dateFormat,
         disabled: 0,
         closed: 0
@@ -236,17 +238,21 @@ router.post(
     // if (!isValid) {
     //   return res.status(400).json(errors);
     // }
-    
+
     Match.findById(req.params.id)
       .then(match => {
         if (req.body.firstTeamFirstHalfGoals)
           match.firstTeamFirstHalfGoals = req.body.firstTeamFirstHalfGoals;
         if (req.body.firstTeamSecondHalfGoals)
           match.firstTeamSecondHalfGoals = req.body.firstTeamSecondHalfGoals;
+        if (req.body.firstTeamOvertimeGoals)
+          match.firstTeamOvertimeGoals = req.body.firstTeamOvertimeGoals;
         if (req.body.secondTeamFirstHalfGoals)
           match.secondTeamFirstHalfGoals = req.body.secondTeamFirstHalfGoals;
         if (req.body.secondTeamSecondHalfGoals)
           match.secondTeamSecondHalfGoals = req.body.secondTeamSecondHalfGoals;
+        if (req.body.secondTeamOvertimeGoals)
+          match.secondTeamOvertimeGoals = req.body.secondTeamOvertimeGoals;
         if (typeof req.body.disabled !== 'undefined') match.disabled = req.body.disabled;
         if (typeof req.body.closed !== 'undefined') match.closed = req.body.closed;
 

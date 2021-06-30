@@ -25,8 +25,10 @@ class MatchItem extends Component {
       secondTeamName: props.match.secondTeamName,
       firstTeamFirstHalfGoals: props.match.firstTeamFirstHalfGoals,
       firstTeamSecondHalfGoals: props.match.firstTeamSecondHalfGoals,
+      firstTeamOvertimeGoals: props.match.firstTeamOvertimeGoals,
       secondTeamFirstHalfGoals: props.match.secondTeamFirstHalfGoals,
       secondTeamSecondHalfGoals: props.match.secondTeamSecondHalfGoals,
+      secondTeamOvertimeGoals: props.match.secondTeamOvertimeGoals,
       disabled: 0,
       closed: 0,
       showMatchForm: false,
@@ -56,8 +58,10 @@ class MatchItem extends Component {
       id: id,
       firstTeamFirstHalfGoals: this.state.firstTeamFirstHalfGoals,
       firstTeamSecondHalfGoals: this.state.firstTeamSecondHalfGoals,
+      firstTeamOvertimeGoals: this.state.firstTeamOvertimeGoals,
       secondTeamFirstHalfGoals: this.state.secondTeamFirstHalfGoals,
-      secondTeamSecondHalfGoals: this.state.secondTeamSecondHalfGoals
+      secondTeamSecondHalfGoals: this.state.secondTeamSecondHalfGoals,
+      secondTeamOvertimeGoals: this.state.secondTeamOvertimeGoals
     };
 
     this.props.updateMatch(matchData);
@@ -72,21 +76,29 @@ class MatchItem extends Component {
     this.props.updateMatch(matchData);
   }
 
-  onFinalClick(id) {
-    const finalData = {
-      matchId: id
-    };
-    const matchData = {
-      id: id,
-      firstTeamFirstHalfGoals: this.state.firstTeamFirstHalfGoals,
-      firstTeamSecondHalfGoals: this.state.firstTeamSecondHalfGoals,
-      secondTeamFirstHalfGoals: this.state.secondTeamFirstHalfGoals,
-      secondTeamSecondHalfGoals: this.state.secondTeamSecondHalfGoals,
-      disabled: 1,
-      closed: 1
-    };
-    this.props.addMatchFinals(finalData);
-    this.props.updateMatch(matchData);
+  onFinalClick = async(id) => {
+      try{
+        const finalData = {
+          matchId: id
+        };
+        const matchData = {
+          id: id,
+          firstTeamFirstHalfGoals: this.state.firstTeamFirstHalfGoals,
+          firstTeamSecondHalfGoals: this.state.firstTeamSecondHalfGoals,
+          firstTeamOvertimeGoals: this.state.firstTeamOvertimeGoals,
+          secondTeamFirstHalfGoals: this.state.secondTeamFirstHalfGoals,
+          secondTeamSecondHalfGoals: this.state.secondTeamSecondHalfGoals,
+          secondTeamOvertimeGoals: this.state.secondTeamOvertimeGoals,
+          disabled: 1,
+          closed: 1
+        };
+        const response = await this.props.updateMatch(matchData);
+        if(response){
+            this.props.addMatchFinals(finalData);
+        }
+    }catch(errors){
+      console.log("errors",errors);
+    }
   }
 
   render() {
@@ -214,9 +226,9 @@ class MatchItem extends Component {
             </button>
           </div>
         {this.state.showMatchForm && match.closed !== 1 ? (
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.onSubmit} className="ml-2 mr-2">
             <div className="row">
-              <div className="col-md-3 text-center">
+              <div className="col-md-2 text-center">
                 <p
                   className="mt-2"
                   style={{ fontWeight: "bold", textAlign: "center" }}
@@ -228,8 +240,8 @@ class MatchItem extends Component {
                 <br />
                 <p className="text-center">{firstTeamName}</p>
               </div>
-              <div className="col-md-2">
-                <div className="lead float-left">
+              <div className="col-md-3">
+                <div className="lead">
                   Bramki do przerwy:
                   <TextFieldGroup
                     name="firstTeamFirstHalfGoals"
@@ -237,11 +249,19 @@ class MatchItem extends Component {
                     onChange={this.onChange}
                   />
                 </div>
-                <div className="lead float-right">
-                  Wynik końcowy:
+                <div className="lead">
+                  Wynik po drugiej połowie:
                   <TextFieldGroup
                     name="firstTeamSecondHalfGoals"
                     value={this.state.firstTeamSecondHalfGoals}
+                    onChange={this.onChange}
+                  />
+                </div>
+                <div className="lead">
+                  Wynik po dogrywce:
+                  <TextFieldGroup
+                    name="firstTeamOvertimeGoals"
+                    value={this.state.firstTeamOvertimeGoals}
                     onChange={this.onChange}
                   />
                 </div>
@@ -255,15 +275,15 @@ class MatchItem extends Component {
                 }}
               >
                 :
-                <button
+                {/* <button
                   onClick={this.onUpdateClick.bind(this, match._id)}
                   className="btn btn-info"
                 >
                   <i className="fas fa-pen-square mr-1" />
                   Uaktualnij wynik
-                </button>
+                </button> */}
               </div>
-              <div className="col-md-3 text-center">
+              <div className="col-md-2 text-center">
                 <p
                   className="mt-2"
                   style={{ fontWeight: "bold", textAlign: "center" }}
@@ -275,8 +295,8 @@ class MatchItem extends Component {
                 <br />
                 <p className="text-center">{secondTeamName}</p>
               </div>
-              <div className="col-md-2">
-                <div className="lead float-left">
+              <div className="col-md-3">
+                <div className="lead">
                   Bramki do przerwy:
                   <TextFieldGroup
                     name="secondTeamFirstHalfGoals"
@@ -284,20 +304,28 @@ class MatchItem extends Component {
                     onChange={this.onChange}
                   />
                 </div>
-                <div className="lead float-right">
-                  Wynik końcowy:
+                <div className="lead">
+                  Wynik po drugiej połowie:
                   <TextFieldGroup
                     name="secondTeamSecondHalfGoals"
                     value={this.state.secondTeamSecondHalfGoals}
                     onChange={this.onChange}
                   />
                 </div>
+                <div className="lead">
+                  Wynik po dogrywce:
+                  <TextFieldGroup
+                    name="secondTeamOvertimeGoals"
+                    value={this.state.secondTeamOvertimeGoals}
+                    onChange={this.onChange}
+                  />
+                </div>
               </div>
-              <div className="col-md-12 float-right d-flex flex-column">
+              <div className="col-md-12 d-flex flex-column">
                 <button
                   onClick={ () => window.confirm('Spowoduje bezpowrotne zamkniecie meczu !') && this.onFinalClick(match._id) }
                   type="button"
-                  className="btn mt-1 float-right"
+                  className="btn mt-1 btn-danger"
                 >
                   finalizuj
                 </button>

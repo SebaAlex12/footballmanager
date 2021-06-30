@@ -14,20 +14,11 @@ class MatchFinalItem extends Component {
     const firstTeamSufix = replaceSpecialChars(match.firstTeamName);
     const secondTeamName = match.secondTeamName;
     const secondTeamSufix = replaceSpecialChars(match.secondTeamName);
-    const firstTeamTotalGoals =
-      match.firstTeamFirstHalfGoals + match.firstTeamSecondHalfGoals;
-    const secondTeamTotalGoals =
-      match.secondTeamFirstHalfGoals + match.secondTeamSecondHalfGoals;
 
-    // console.log(match);
+    // console.log("match",match);
     const betting = match.bettings.filter(
       betting => betting.userId === matchFinal.userId
     )[0];
-
-    const firstTeamBettingTotalGoals =
-      betting.firstTeamFirstHalfGoals + betting.firstTeamSecondHalfGoals;
-    const secondTeamBettingTotalGoals =
-      betting.secondTeamFirstHalfGoals + betting.secondTeamSecondHalfGoals;
 
     return (
       <tr>
@@ -81,30 +72,6 @@ class MatchFinalItem extends Component {
               />
             </div>
           </div>
-          {/* <div
-            className={
-              "match-final-item-total clearfix border border-primary" +
-              (matchFinal.secondHalfHitWinner === 1 ? " bg-hit-winner" : "") +
-              (matchFinal.secondHalfHitResult === 1 ? " bg-hit-result" : "")
-            }
-          >
-            <span className="font-weight-bold">W</span>
-            <span className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={firstTeamName}
-                sufix={firstTeamSufix}
-                goals={firstTeamTotalGoals}
-              />
-            </span>
-            <span>:</span>
-            <span className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={secondTeamName}
-                sufix={secondTeamSufix}
-                goals={secondTeamTotalGoals}
-              />
-            </span>
-          </div> */}
         </td>
         <td>
           <div
@@ -155,30 +122,6 @@ class MatchFinalItem extends Component {
               />
             </div>
           </div>
-          {/* <div
-            className={
-              "match-final-item-total clearfix border border-primary" +
-              (matchFinal.secondHalfHitWinner === 1 ? " bg-hit-winner" : "") +
-              (matchFinal.secondHalfHitResult === 1 ? " bg-hit-result" : "")
-            }
-          >
-            <span className="font-weight-bold">W</span>
-            <span className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={firstTeamName}
-                sufix={firstTeamSufix}
-                goals={firstTeamBettingTotalGoals}
-              />
-            </span>
-            <span>:</span>
-            <span className="d-inline ml-2 mr-2">
-              <MatchCard
-                name={secondTeamName}
-                sufix={secondTeamSufix}
-                goals={secondTeamBettingTotalGoals}
-              />
-            </span>
-          </div> */}
         </td>
         <td style={{fontWeight:"bold"}}>
           <div

@@ -68,6 +68,7 @@ export const getCurrentMatch = id => dispatch => {
 // update match
 
 export const updateMatch = matchData => dispatch => {
+  console.log("dispatch match data",matchData);
   axios
     .post(`/api/matches/update/${matchData.id}`, matchData)
     .then(res =>
