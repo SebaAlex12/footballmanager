@@ -134,6 +134,29 @@ class MatchItem extends Component {
             </button>
     ) : null;
 
+    const overtimeContent = match.firstTeamOvertimeGoals && match.secondTeamOvertimeGoals ? (
+        <React.Fragment>
+              <div className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={firstTeamName}
+                sufix={firstTeamSufix}
+                goals={match.firstTeamOvertimeGoals}
+              />
+            </div>
+            <span>:</span>
+            <div className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={secondTeamName}
+                sufix={secondTeamSufix}
+                goals={match.secondTeamOvertimeGoals}
+              />
+            </div>
+            <div className="d-inline ml-2 mr-2">
+                [ dogrywka ]
+            </div>
+      </React.Fragment>
+    ) : null;
+
     let statusClass = "";
     if(match.disabled === 1){
       statusClass = "disabled";
@@ -195,6 +218,9 @@ class MatchItem extends Component {
                 goals={match.secondTeamFirstHalfGoals}
               />
             </div>
+            <div className="d-inline ml-2 mr-2">
+                [ I połowa ]
+            </div>
             <br />
             <div className="d-inline ml-2 mr-2">
               <MatchCard
@@ -211,6 +237,11 @@ class MatchItem extends Component {
                 goals={match.secondTeamSecondHalfGoals}
               />
             </div>
+            <div className="d-inline ml-2 mr-2">
+                [ II połowa ]
+            </div>
+            <br />
+            { overtimeContent }
             { switchDisableButton }
             { formButton }
             <button
