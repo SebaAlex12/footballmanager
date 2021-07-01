@@ -18,11 +18,19 @@ const MatchFinalSchema = new Schema({
     type: Number,
     require: true
   },
+  overtimePoints: {
+    type: Number,
+    require: true
+  },
   firstHalfHitWinner: {
     type: Number,
     require: true
   },
   secondHalfHitWinner: {
+    type: Number,
+    require: true
+  },
+  overtimeHitWinner: {
     type: Number,
     require: true
   },
@@ -34,9 +42,16 @@ const MatchFinalSchema = new Schema({
     type: Number,
     require: true
   },
+  overtimeHitResult: {
+    type: Number,
+    require: true
+  },
   totalPoints: {
     type: Number,
     require: true
+  },
+  matchDate: {
+    type: Date,
   }
 });
 

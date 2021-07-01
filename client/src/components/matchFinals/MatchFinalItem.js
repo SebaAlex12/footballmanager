@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import MatchCard from "../matches/MatchCard";
+import Moment from "react-moment";
+import moment from "moment";
 
 import { replaceSpecialChars } from "../common/functions";
 
@@ -20,9 +22,78 @@ class MatchFinalItem extends Component {
       betting => betting.userId === matchFinal.userId
     )[0];
 
+    const overtimeBettingContent = (typeof betting.firstTeamOvertimeGoals === "number" && typeof betting.secondTeamOvertimeGoals === "number") ? (
+        <div
+                    className={
+                      "match-final-item clearfix" +
+                      (matchFinal.overtimeHitWinner === 1 ? " bg-hit-winner" : "") +
+                      (matchFinal.overtimeHitResult === 1 ? " bg-hit-result" : "")
+                    }
+                  >
+                    <span className="font-weight-bold">D</span>
+                    <div className="d-inline ml-2 mr-2">
+                      <MatchCard
+                        name={firstTeamName}
+                        sufix={firstTeamSufix}
+                        goals={betting.firstTeamOvertimeGoals}
+                      />
+                    </div>
+                    <span>:</span>
+                    <div className="d-inline ml-2 mr-2">
+                      <MatchCard
+                        name={secondTeamName}
+                        sufix={secondTeamSufix}
+                        goals={betting.secondTeamOvertimeGoals}
+                      />
+                    </div>
+          </div>
+    ) : null;
+
+    const overtimeContent = (typeof match.firstTeamOvertimeGoals === "number" && typeof match.secondTeamOvertimeGoals === "number") ? (
+      <div
+            className={
+              "match-final-item clearfix" +
+              (matchFinal.overtimeHitWinner === 1 ? " bg-hit-winner" : "") +
+              (matchFinal.overtimeHitResult === 1 ? " bg-hit-result" : "")
+            }
+          >
+            <span className="font-weight-bold">D</span>
+            <div className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={firstTeamName}
+                sufix={firstTeamSufix}
+                goals={match.firstTeamOvertimeGoals}
+              />
+            </div>
+            <span>:</span>
+            <div className="d-inline ml-2 mr-2">
+              <MatchCard
+                name={secondTeamName}
+                sufix={secondTeamSufix}
+                goals={match.secondTeamOvertimeGoals}
+              />
+            </div>
+          </div>
+    ) : null;
+
+    const overtimeCounterContent = (
+        <div
+        className={
+          "match-final-item clearfix" +
+          (matchFinal.overtimeHitWinner === 1 ? " bg-hit-winner" : "") +
+          (matchFinal.overtimeHitResult === 1 ? " bg-hit-result" : "")
+        }
+      >
+        liczba: {matchFinal.overtimePoints}
+      </div>  
+    );
+
     return (
       <tr>
-        <td>{betting.userName}</td>
+        <td>
+          {betting.userName}
+          <div>{ <Moment format="YYYY-MM-DD HH:mm">{moment(matchFinal.matchDate).subtract(2, 'hours')}</Moment> }</div>
+        </td>
         <td>
         <div
             className={
@@ -72,6 +143,7 @@ class MatchFinalItem extends Component {
               />
             </div>
           </div>
+          { overtimeBettingContent }
         </td>
         <td>
           <div
@@ -122,6 +194,7 @@ class MatchFinalItem extends Component {
               />
             </div>
           </div>
+          { overtimeContent }
         </td>
         <td style={{fontWeight:"bold"}}>
           <div
@@ -142,6 +215,7 @@ class MatchFinalItem extends Component {
           >
             liczba: {matchFinal.secondHalfPoints}
           </div>
+          { overtimeCounterContent }
           <div className="match-final-item clearfix">
             razem: {matchFinal.totalPoints}
           </div>

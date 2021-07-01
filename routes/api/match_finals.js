@@ -17,7 +17,7 @@ router.get("/test", (req, res) => res.json({ msg: "match final works" }));
 // @access Public
 router.get("/", (req, res) => {
   MatchFinal.find()
-    .sort({ date: -1 })
+    .sort({ matchDate: -1 })
     .then(matchFinal => res.json(matchFinal))
     .catch(err =>
       res.status(404).json({ nomatchfinalfound: `No match final found` })
@@ -76,12 +76,17 @@ const generateMatchFinals = async(match) => {
         // default values
         let firstHalfPoints = 0;
         let secondHalfPoints = 0;
+        let overtimePoints = 0;
+        
         let firstHalfHitWinner = 0;
         let secondHalfHitWinner = 0;
+        let overtimeHitWinner = 0;
+
         let firstHalfHitResult = 0;
         let secondHalfHitResult = 0;
+        let overtimeHitResult = 0;
 
-        // first and second half match winner
+        // first half second half overtime match winner
         let firstHalfWinner = {
           firstTeam: 0,
           secondTeam: 0
@@ -92,7 +97,12 @@ const generateMatchFinals = async(match) => {
           secondTeam: 0
         };
 
-        // first and second half betting winner
+        let overtimeWinner = {
+          firstTeam: null,
+          secondTeam: null
+        };
+
+        // first half second half and overtime betting winner
         let firstHalfBettingWinner = {
           firstTeam: 0,
           secondTeam: 0
@@ -103,7 +113,12 @@ const generateMatchFinals = async(match) => {
           secondTeam:0
         }
 
-        // who won first and who won second half in match
+        let overtimeBettingWinner = {
+          firstTeam:null,
+          secondTeam:null
+        }
+
+        // who won first and who won second half and how won overtime in match
         if(match.firstTeamFirstHalfGoals > match.secondTeamFirstHalfGoals){
             firstHalfWinner.firstTeam = 1;
         }
@@ -119,9 +134,26 @@ const generateMatchFinals = async(match) => {
         if(match.firstTeamSecondHalfGoals < match.secondTeamSecondHalfGoals){
             secondHalfWinner.secondTeam = 1;
         }  
+
+
+  if(typeof match.firstTeamOvertimeGoals === "number" && typeof match.secondTeamOvertimeGoals === "number"){
+
+      if(match.firstTeamOvertimeGoals > match.secondTeamOvertimeGoals){
+        overtimeWinner.firstTeam = 1;
+        overtimeWinner.secondTeam = 0;
+      }
+      
+      if(match.firstTeamOvertimeGoals < match.secondTeamOvertimeGoals){
+        overtimeWinner.firstTeam = 0;
+          overtimeWinner.secondTeam = 1;
+      }
+
+  }
+
+
         
-        // who won first and who won second half in betting
-                if(betting.firstTeamFirstHalfGoals > betting.secondTeamFirstHalfGoals){
+        // who won first half who won second half and who won overtime in betting
+              if(betting.firstTeamFirstHalfGoals > betting.secondTeamFirstHalfGoals){
                   firstHalfBettingWinner.firstTeam = 1;
               }
       
@@ -137,6 +169,30 @@ const generateMatchFinals = async(match) => {
                   secondHalfBettingWinner.secondTeam = 1;
               }  
 
+
+
+        if(typeof betting.firstTeamOvertimeGoals === "number" && typeof betting.secondTeamOvertimeGoals === "number"){
+
+                if(betting.firstTeamOvertimeGoals > betting.secondTeamOvertimeGoals){
+                  overtimeBettingWinner.firstTeam = 1;
+                  overtimeBettingWinner.secondTeam = 0;
+                }
+        
+                if(betting.firstTeamOvertimeGoals < betting.secondTeamOvertimeGoals){
+                    overtimeBettingWinner.firstTeam = 0;
+                    overtimeBettingWinner.secondTeam = 1;
+                } 
+                
+        }
+
+        if(betting._id == "60db693efffd4c0017a02d24"){
+          console.log("match",match);
+          console.log("betting",betting);
+          console.log("overtimeWinner",overtimeWinner);
+          console.log("overtimeBettingWinner",overtimeBettingWinner);
+        }
+
+
         // compare match and betting first half if true got one point
         if(firstHalfWinner.firstTeam == firstHalfBettingWinner.firstTeam && firstHalfWinner.secondTeam == firstHalfBettingWinner.secondTeam){
             firstHalfHitWinner = 1;
@@ -146,6 +202,13 @@ const generateMatchFinals = async(match) => {
         if(secondHalfWinner.firstTeam == secondHalfBettingWinner.firstTeam && secondHalfWinner.secondTeam == secondHalfBettingWinner.secondTeam){
             secondHalfHitWinner = 1;
             secondHalfPoints = 2;
+        }
+        // compare match and betting overtime if true got one point - check if was betting in overtime
+        if(overtimeWinner.firstTeam !== null && overtimeBettingWinner.firstTeam !== null && overtimeWinner.secondTeam != null && overtimeBettingWinner.secondTeam !== null){
+            if(overtimeWinner.firstTeam == overtimeBettingWinner.firstTeam && overtimeWinner.secondTeam == overtimeBettingWinner.secondTeam){
+                overtimeHitWinner = 1;
+                overtimePoints = 1;
+            }
         }
 
         // if first half hit the some result you got two points
@@ -158,19 +221,32 @@ const generateMatchFinals = async(match) => {
         if(match.firstTeamSecondHalfGoals == betting.firstTeamSecondHalfGoals && match.secondTeamSecondHalfGoals == betting.secondTeamSecondHalfGoals){
           secondHalfHitResult = 1;
           secondHalfPoints = 3; 
-        }        
+        }   
+        
+        if(typeof betting.firstTeamOvertimeGoals === "number" && typeof betting.secondTeamOvertimeGoals === "number"){
+
+          // if overtime hit the some result you got two points
+          if(match.firstTeamOvertimeGoals == betting.firstTeamOvertimeGoals && match.secondTeamOvertimeGoals == betting.secondTeamOvertimeGoals){
+              overtimeHitResult = 1;
+              overtimePoints = 2; 
+          } 
+
+        }
 
         const data = {
             userId: betting.userId,
             matchId: match._id,
             firstHalfPoints: firstHalfPoints,
             secondHalfPoints: secondHalfPoints,
+            overtimePoints: overtimePoints,
             firstHalfHitWinner: firstHalfHitWinner,
             secondHalfHitWinner: secondHalfHitWinner,
+            overtimeHitWinner: overtimeHitWinner,
             firstHalfHitResult: firstHalfHitResult,
             secondHalfHitResult: secondHalfHitResult,
-            date: match.date,
-            totalPoints: firstHalfPoints + secondHalfPoints
+            overtimeHitResult: overtimeHitResult,
+            matchDate: match.date,
+            totalPoints: firstHalfPoints + secondHalfPoints + overtimePoints
         };
 
         const matchFinal = new MatchFinal(data);

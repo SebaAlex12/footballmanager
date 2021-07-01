@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { isEmpty } from "../../validation/is-empty";
-import { defaultTeams } from "../teams/TeamsDataForm";
+import DefaultTeams from "../teams/TeamsDataForm";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { addMatch } from "../../actions/matchActions";
@@ -21,9 +21,9 @@ class MatchForm extends Component {
       firstTeamSecondHalfGoals: "",
       secondTeamFirstHalfGoals: "",
       secondTeamSecondHalfGoals: "",
-      defaultTeams: defaultTeams,
-      firstTeamDefaultTeams: defaultTeams,
-      secondTeamDefaultTeams: [{ label: "Wybierz drużynę", value: "" }],
+      defaultTeams: DefaultTeams,
+      firstTeamDefaultTeams: DefaultTeams,
+      secondTeamDefaultTeams: DefaultTeams,
       errors: {}
     };
     this.onChange = this.onChange.bind(this);

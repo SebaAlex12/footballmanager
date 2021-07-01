@@ -13,8 +13,8 @@ class MatchBettingsItem extends Component {
     const secondTeamName = match.secondTeamName.split("_")[0];
     const secondTeamSufix = match.secondTeamName.split("_")[1];
 
-    const overtimeContent = (betting.firstTeamOvertimeGoals && betting.secondTeamOvertimeGoals) ? 
-      <td>  
+    const overtimeContent = (typeof betting.firstTeamOvertimeGoals === "number" && typeof betting.secondTeamOvertimeGoals === "number") ? 
+      (<td>  
         <div className="d-inline ml-2 mr-2">
             <MatchCard
               name={firstTeamName}
@@ -30,7 +30,7 @@ class MatchBettingsItem extends Component {
               goals={betting.secondTeamOvertimeGoals}
             />
           </div>
-        </td> : null;
+        </td>) : null;
 
     return (
       <tr>

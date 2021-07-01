@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import SelectListGroup from "../common/SelectListGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import { addTeam, getTeams } from "../../actions/teamActions";
-import { defaultTeams } from "./TeamsDataForm";
+import DefaultTeams from "./TeamsDataForm";
 
 class TeamForm extends Component {
   constructor(props) {
@@ -65,11 +65,11 @@ class TeamForm extends Component {
     const { teams } = this.props;
     const { errors } = this.state;
 
-    let options = defaultTeams;
+    let options = DefaultTeams;
 
     // remove teams from options whitch already have been added
     if (teams.length > 0) {
-      options = this.filterOptions(teams, defaultTeams);
+      options = this.filterOptions(teams, DefaultTeams);
     }
 
     return (
