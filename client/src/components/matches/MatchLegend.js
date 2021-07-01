@@ -47,7 +47,7 @@ const MatchLegend = () => {
       </Points>
       <Info>
         <div>Tutaj jest info o rozgrywce</div>
-        <div>za dogrywke podlicze punkty pozniej ziomy obstawiajcie</div>
+        <div>Poprawilem podliczanie punktow teraz powinno dobrze liczyc i doliczac dogrywke i uaktualnilem wynik</div>
       </Info>
     </LegendBox>
   )
