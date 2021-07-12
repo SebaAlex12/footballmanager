@@ -46,8 +46,8 @@ const MatchLegend = () => {
         </table>
       </Points>
       <Info>
-        <div>Tutaj jest info o rozgrywce</div>
-        <div>Poprawilem podliczanie punktow teraz powinno dobrze liczyc i doliczac dogrywke i uaktualnilem wynik</div>
+        <div style={{color:"#000",borderBottom:"1px solid grey",padding:"10px 0px",margin:"10px 0px"}}>Tutaj jest info o rozgrywce</div>
+        <div>Wyniki zaktualizowane. <br/>Wszystkie mecze zamknięte !!! <br/>W razie wątpliwości co do punktacji dajcie znać :)</div>
       </Info>
     </LegendBox>
   )
