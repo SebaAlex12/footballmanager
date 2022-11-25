@@ -55,8 +55,8 @@ class MatchBettingUserForm extends Component {
     // if match has began already block it and dont allow to change betting
     // const currentTime = Date.now() / 1000;
     const currentTime = moment(new Date(),"YYYY-MM-DD HH:mm:ss").format();
-    // console.log("match date", match.date);
-    // console.log("current time", currentTime);
+    console.log("match date", match.date);
+    console.log("current time", currentTime);
     // console.log("match",match);
     if (match.date < currentTime) {
         alert('Spotkanie się zaczęło albo już zakończyło - jest już za późno na obstawianie tego meczu :(');
