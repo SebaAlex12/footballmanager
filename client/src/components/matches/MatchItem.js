@@ -191,7 +191,7 @@ class MatchItem extends Component {
             <p className="text-white mb-0">
               [{counter}] 
               Termin rozgrywki: {}
-              { <Moment format="YYYY-MM-DD HH:mm">{moment(match.date).subtract(2, 'hours')}</Moment> }
+              { <Moment format="YYYY-MM-DD HH:mm">{moment(match.date).subtract(12, 'hours')}</Moment> }
               {/* <span>{ match.date }</span> */}
               { matchBettingUser.length === 1 && ( 
                 <span className="card-betting-info">
